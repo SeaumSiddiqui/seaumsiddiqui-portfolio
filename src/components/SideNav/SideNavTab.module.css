@@ -1,0 +1,85 @@
+.tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 54px;
+  padding: 36px 0;
+  background: var(--color-bg-subtle);
+  border: none;
+  border-radius: 8px 0 0 8px;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.tab.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.tab__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.tab__letterWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.tab__dot {
+  position: absolute;
+  bottom: 4px;
+  right: -9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cursor-color);
+}
+
+.tab__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--cursor-color);
+  animation: ping 1.5s ease-out infinite;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.tab__letter {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 22px;
+  color: var(--font-heading-color);
+  line-height: 1;
+}
+
+.tab__label {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--font-body-color);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}

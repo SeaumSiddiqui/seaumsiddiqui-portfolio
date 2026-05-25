@@ -1,0 +1,16 @@
+.blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 50%;
+  background: var(--cursor-color);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 9999;
+  /* mix-blend-mode: screen; */
+  box-shadow: none;
+  will-change: transform;
+  transform-origin: center center;
+}

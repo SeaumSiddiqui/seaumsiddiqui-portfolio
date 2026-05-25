@@ -1,0 +1,49 @@
+:root {
+  /* Grayscale Palette */
+  --color-100: #0a0a0a;
+  --color-200: #323232;
+  --color-300: #727272;
+  --color-400: #e0e0e0;
+  --color-500: #f7f7f7;
+
+  /* Semantic aliases */
+  --color-bg: var(--color-500);
+  --color-bg-subtle: var(--color-400);
+  --color-border: var(--color-300);
+  --color-text-muted: var(--color-300);
+  --color-text-pop: var(--color-200);
+  --color-text-primary: var(--color-100);
+
+  /* Heading — Magnat Text 700 */
+  --font-heading: "Magnat Text", "Space Grotesk";
+  --font-heading-weight: 700;
+  --font-heading-size: 38px;
+  --font-heading-lh: 53px;
+  --font-heading-color: var(--color-180);
+
+  /* Label / Nav — JetBrains Mono 500 */
+  /* --font-label: "JetBrains Mono", "Courier Prime", monospace; */
+  --font-label: "JetBrains Mono";
+  --font-label-weight: 400;
+  --font-label-large: 29px;
+  --font-label-small: 16px;
+  --font-label-lh: 22px;
+  --font-label-color: var(--color-200);
+
+  /* Body — Source Sans 3 400 */
+  /* --font-body: "Source Sans 3", "Neue Helvetica", Helvetica, sans-serif; */
+  --font-body: "Source Sans 3";
+  --font-body-weight: 500;
+  --font-body-large: 19px;
+  --font-body-small: 13px;
+  --font-body-lh: 27px;
+  --font-body-color: var(--color-100);
+
+  /* Custom cursor */
+  --cursor-color: #3200e6;
+  --cursor-size: 10px;
+  --cursor-size-hover: 36px;
+
+  /* Side padding for the entire site */
+  --site-padding: clamp(40px, 8vw, 125px);
+}

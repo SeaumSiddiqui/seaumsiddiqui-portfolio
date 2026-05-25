@@ -1,0 +1,25 @@
+.track {
+  position: relative;
+  width: 1px;
+  height: 50%;
+  align-self: center;
+  background: var(--color-border);
+  flex-shrink: 0;
+  opacity: 0; /* hidden by default, shown by JS when needed */
+}
+
+.thumb {
+  position: absolute;
+  top: 0;
+  left: -8px; /* centers 7px pill over 1px line: -(7-1)/2 */
+  width: 7px;
+  height: 28px;
+  background: var(--color-200);
+  border-radius: 999px;
+  cursor: grab;
+  z-index: 10;
+}
+
+.thumb:active {
+  cursor: grabbing;
+}

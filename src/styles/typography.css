@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "Magnat Text";
+  src: url("/fonts/MagnatText-Bold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+.text-heading {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--font-heading-size);
+  line-height: var(--font-heading-lh);
+  color: var(--font-heading-color);
+}
+
+.text-label {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-size);
+  line-height: var(--font-label-lh);
+  color: var(--font-label-color);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-weight: var(--font-body-weight);
+  font-size: var(--font-body-size);
+  line-height: var(--font-body-lh);
+  color: var(--font-body-color);
+}

@@ -1,0 +1,146 @@
+.projects {
+  position: relative;
+  z-index: 2;
+  background-color: var(--color-bg);
+  padding-bottom: 60px;
+  margin-top: -5px;
+}
+
+.projects__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px var(--site-padding) 32px;
+}
+
+.projects__label {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--font-label-color);
+  white-space: nowrap;
+  padding-top: 6px;
+}
+
+.projects__count {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
+  letter-spacing: 0.12em;
+  color: var(--font-label-color);
+  white-space: nowrap;
+  padding-top: 6px;
+  min-width: 120px;
+}
+
+/* 3 equal columns with gap */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 0 var(--site-padding);
+}
+
+/* Viewport clips the track */
+.projects__viewport {
+  overflow: hidden;
+  width: 100%;
+  padding: 0 var(--site-padding);
+  box-sizing: border-box;
+  cursor: grab;
+}
+
+.projects__viewport:active {
+  cursor: grabbing;
+}
+
+/* Track — wide enough for all groups */
+.projects__track {
+  display: flex;
+  gap: 16px;
+  will-change: transform;
+  user-select: none;
+}
+
+/* Each slide is one group of 3 */
+.projects__slide {
+  flex: 0 0 calc((100%) / 3 - 11px); /* 3 cards per view, accounting for gap */
+  min-width: 0;
+}
+
+.projects__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 32px var(--site-padding) 0;
+}
+/* Dots */
+.projects__dots {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.projects__dots button {
+  height: 3px;
+  width: 24px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-400);
+  cursor: none;
+  padding: 0;
+  transition:
+    width 0.3s ease,
+    back 0.3s ease;
+}
+
+.projects__dots button[data-active="true"] {
+  width: 48px; 
+  background: var(--color-border);
+}
+
+.projects__archiveBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  text-decoration: none;
+  cursor: none;
+  margin-top: -8px;
+}
+
+.projects__archiveBtnTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.projects__archiveBtnTop svg {
+  transition: transform 0.3s ease;
+}
+
+.projects__archiveBtn:hover .projects__archiveBtnTop svg {
+  transform: rotate(45deg); 
+}
+
+.projects__archiveBtnSub {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: 11px;
+  letter-spacing: 0.46em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+  width: 100%;
+  text-align: right;
+}

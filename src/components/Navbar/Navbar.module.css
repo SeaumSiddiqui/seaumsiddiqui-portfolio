@@ -1,0 +1,82 @@
+.navbar {
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 28px var(--site-padding);
+  background-color: transparent;
+}
+
+/* absolute — floats over hero */
+.navbar[data-position="absolute"] {
+  position: absolute;
+  top: 0;
+}
+
+/* relative — normal flow for other pages */
+.navbar[data-position="relative"] {
+  position: relative;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 22px;
+  color: var(--font-heading-color);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.navbar__logoIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar__brandName {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  gap: 0;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+}
+
+.navbar__copyright {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
+  line-height: 20px;
+  color: var(--font-label-color);
+  letter-spacing: 0.06em;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 56px;
+}
+
+.navbar__col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navbar__link {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
+  line-height: 20px;
+  color: var(--font-label-color);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}

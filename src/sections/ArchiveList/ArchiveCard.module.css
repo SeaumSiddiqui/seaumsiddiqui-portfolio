@@ -1,0 +1,241 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 88vh, 900px);
+  overflow: hidden;
+}
+
+/* ── LEFT — image, 50% width ── */
+.left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  /* border-radius: 12px 0 0 12px; */
+  background: var(--color-100);
+  z-index: 1;
+  cursor: none;
+  overflow: hidden;
+  padding: 2px 0; /* 2px vertical padding to prevent image from bleeding edges */
+}
+
+.left img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── BACK — info card, sits in the 30% slide space ── */
+.back {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40%; 
+  height: 100%;
+  background: var(--color-100);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.back__abbr {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(38px, 5vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-text-muted);
+  text-align: right;
+  margin-top: -0.11em;
+}
+
+.back__meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.back__clientDate {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
+  letter-spacing: 0.36em;
+  word-spacing: 0.4em; 
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* ── RIGHT — details, default overlaps back ── */
+.right {
+  position: absolute;
+  top: 0;
+  left: 10%; /* default: 20% of left visible = 10% of container */
+  width: 50%;
+  height: 100%;
+  /* border-radius:   0 12px 12px 0; */
+  background: var(--color-100);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px 32px 8px 32px;
+  box-sizing: border-box;
+}
+
+.right__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 12px;
+  position: relative; 
+}
+
+/* 2. Create the custom mini-border */
+.right__header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.right__name {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(38px, 5vw, var(--font-label-large));
+  line-height: 1;
+  letter-spacing: -0.02em;
+  /* margin-top:     -2px; */
+  color: var(--color-text-muted);
+}
+
+.right__link {
+  flex-shrink: 0;
+  color: var(--color-text-pop);
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.right__link:hover {
+  transform: rotate(45deg);
+}
+
+.right__title {
+  font-family: var(--font-body);
+  font-weight: var(--font-body-weight);
+  font-size: var(--font-body-large);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.right__desc {
+  font-family: var(--font-body);
+  font-weight: var(--font-body-weight);
+  font-size: var(--font-label-small);
+  line-height: 27px;
+  color: var(--color-400);
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 100%;
+  scroll-behavior: smooth;
+}
+
+.right__descWrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+  min-height: 0; /* critical — without this flex child expands infinitely */
+}
+
+.right__desc {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0; /* critical — without this flex child expands infinitely */
+  scrollbar-width: none;
+}
+
+.right__desc::-webkit-scrollbar {
+  display: none;
+}
+
+.right__desc h1,
+.right__desc h2,
+.right__desc h3 {
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  letter-spacing: -0.02em;
+  color: var(--color-text-muted);
+  margin: 0.8em 0 0.4em;
+  line-height: 1.1;
+}
+
+.right__desc h1 {
+  font-size: clamp(24px, 2.5vw, 24px);
+}
+.right__desc h2 {
+  font-size: clamp(20px, 2vw, 18px);
+}
+.right__desc h3 {
+  font-size: clamp(16px, 1.5vw, 16px);
+}
+
+.right__desc p {
+  margin: 0 0 1em;
+}
+
+.right__desc ul {
+  list-style-type: disc;
+  padding-left: 1.4em;
+  margin: 0 0 1em;
+}
+
+.right__desc ol {
+  list-style-type: decimal;
+  padding-left: 1.4em;
+  margin: 0 0 1em;
+}
+
+.right__desc li {
+  display: list-item; 
+  margin-bottom: 0.4em;
+}
+
+.right__desc strong {
+  font-weight: 700;
+}
+.right__desc em {
+  font-style: italic;
+}
+
+.right__desc code {
+  font-family: var(--font-label);
+  font-size: 0.9em;
+  background: var(--color-bg-subtle);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.right__desc blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 16px;
+  color: var(--color-text-muted);
+  margin: 0 0 1em;
+}
+
+.right__desc a {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
