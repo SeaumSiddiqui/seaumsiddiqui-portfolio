@@ -72,33 +72,53 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Seaum Siddiqui — Backend Engineer" },
+      { name: "description", content: "Portfolio of Seaum Siddiqui, a Backend Engineer specializing in Java, Spring Boot, Microservices, and Full-Stack Development based in Dhaka, Bangladesh." },
+      { name: "author", content: "Seaum Siddiqui" },
+      { name: "robots", content: "index, follow" },
+      { name: "keywords", content: "Seaum Siddiqui, Backend Engineer, Java Developer, Spring Boot, Microservices, Full-Stack Developer, Dhaka, Bangladesh, Software Engineer" },
+
+      // Open Graph
+      { property: "og:title", content: "Seaum Siddiqui — Backend Engineer" },
+      { property: "og:description", content: "Portfolio of Seaum Siddiqui, a Backend Engineer specializing in Java, Spring Boot, and Microservices." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:url", content: "https://seaumsiddiqui.vercel.app" },
+      { property: "og:image", content: "https://seaumsiddiqui.vercel.app/og-image.png" },
+
+      // Twitter
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Seaum Siddiqui — Backend Engineer" },
+      { name: "twitter:description", content: "Portfolio of Seaum Siddiqui, Backend Engineer based in Dhaka, Bangladesh." },
+      { name: "twitter:image", content: "https://seaumsiddiqui.vercel.app/og-image.png" },
     ],
     links: [
-      {
-        rel: "preload",
-        href: "/fonts/MagnatText-Bold.woff",
-        as: "font",
-        type: "font/woff",
-        crossOrigin: "anonymous",
-      },
+      // 1. The modern SVG icon for browsers that support it (including Safari)
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+
+      // 2. Standard Favicons for desktop browsers
+      { rel: "icon", href: "/icon16.png", sizes: "16x16", type: "image/png" },
+      { rel: "icon", href: "/icon32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/icon48.png", sizes: "48x48", type: "image/png" },
+      { rel: "icon", href: "/icon128.png", sizes: "128x128", type: "image/png" },
+
+      // 3. Ultimate Fallback (Your file named 'favicon' without dimensions)
+      { rel: "icon", href: "/favicon.ico", sizes: "any" }, 
+
+      // 4. Android Chrome Large Icon
+      { rel: "icon", href: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+
+      // 5. Android / PWA Manifest mapping
+      { rel: "manifest", href: "/site.webmanifest" },
+
+      // Font and stylesheet links remain below...
+      { rel: "preload", href: "/fonts/MagnatText-Bold.woff", as: "font", type: "font/woff", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&family=Source+Sans+3:wght@400&display=swap",
       },
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
     ],
   }),
   shellComponent: RootShell,
