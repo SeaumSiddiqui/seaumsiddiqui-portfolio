@@ -41,28 +41,28 @@ export default function HeroSection() {
   const portraitSrc = data?.portrait ? urlFor(data.portrait).width(840).url() : portraitImg;
 
   // Fit primary role text to full viewport width
-useEffect(() => {
-  const el = roleRef.current;
-  if (!el || !primaryRole) return;
+  useEffect(() => {
+    const el = roleRef.current;
+    if (!el || !primaryRole) return;
 
-const fit = () => {
-  el.style.fontSize = "100px";
-  el.style.width    = "max-content";
-  const naturalWidth = el.scrollWidth;
-  el.style.width    = "";
-  const available   = el.getBoundingClientRect().width;
-  el.style.fontSize = `${(available / naturalWidth) * 100}px`;
-  el.style.opacity  = "1";  // ← show after sized
-};
-  // if data just loaded, wait one frame for DOM to update
-  const rafId = requestAnimationFrame(fit);
-  window.addEventListener("resize", fit);
+    const fit = () => {
+      el.style.fontSize = "100px";
+      el.style.width = "max-content";
+      const naturalWidth = el.scrollWidth;
+      el.style.width = "";
+      const available = el.getBoundingClientRect().width;
+      el.style.fontSize = `${(available / naturalWidth) * 100}px`;
+      el.style.opacity = "1"; // ← show after sized
+    };
+    // if data just loaded, wait one frame for DOM to update
+    const rafId = requestAnimationFrame(fit);
+    window.addEventListener("resize", fit);
 
-  return () => {
-    cancelAnimationFrame(rafId);
-    window.removeEventListener("resize", fit);
-  };
-}, [primaryRole]);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", fit);
+    };
+  }, [primaryRole]);
 
   return (
     <section className={styles.hero} data-section="hero">

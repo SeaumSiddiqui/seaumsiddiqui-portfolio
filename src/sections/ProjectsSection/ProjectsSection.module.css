@@ -66,7 +66,7 @@
 
 /* Each slide is one group of 3 */
 .projects__slide {
-  flex: 0 0 calc((100%) / 3 - 11px); /* 3 cards per view, accounting for gap */
+  flex: 0 0 calc((100% - 32px) / 3); /* 100% of viewport minus 2 gaps (16px * 2) divided by 3 */
   min-width: 0;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .projects__dots button[data-active="true"] {
-  width: 48px; 
+  width: 48px;
   background: var(--color-border);
 }
 
@@ -129,7 +129,7 @@
 }
 
 .projects__archiveBtn:hover .projects__archiveBtnTop svg {
-  transform: rotate(45deg); 
+  transform: rotate(45deg);
 }
 
 .projects__archiveBtnSub {

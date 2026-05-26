@@ -6,7 +6,7 @@ interface Props {
   loading: boolean;
 }
 
-// helpers 
+// helpers
 
 function getMonthLabels(weeks: ContributionWeek[]) {
   const labels: { label: string; colIndex: number }[] = [];
@@ -36,7 +36,7 @@ function getYearLabels(weeks: ContributionWeek[]) {
 
 const DAY_LABELS = ["Mon", "", "Wed", "", "Fri", "", ""];
 
-// component 
+// component
 
 export default function CommitsGraph({ weeks, loading }: Props) {
   const monthLabels = getMonthLabels(weeks);

@@ -1,16 +1,12 @@
 {
   "include": [
-    "src/**/*.ts", 
-    "src/**/*.tsx", 
-    "vite.config.ts", 
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
     "eslint.config.js",
-    ".tanstack/**/*.ts"  
+    ".tanstack/**/*.ts"
   ],
-  "exclude": [
-    "node_modules", 
-    ".output", 
-    "dist"                   /* Exclude production build targets */
-  ],
+  "exclude": ["node_modules", ".output", "dist" /* Exclude production build targets */],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
@@ -31,7 +27,7 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    
+
     /* Path Mapping */
     "paths": {
       "@/*": ["./src/*"]

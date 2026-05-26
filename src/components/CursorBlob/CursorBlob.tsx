@@ -46,7 +46,7 @@ export default function CursorBlob() {
         overTab = false;
         gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.inOut" });
       }
-      if (overTab) return; 
+      if (overTab) return;
 
       // ── Portrait canvas ──
       const portrait = getPortrait();

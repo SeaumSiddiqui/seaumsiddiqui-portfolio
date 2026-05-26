@@ -48,7 +48,7 @@
 .list__card {
   /* background-color: rgb(255, 206, 205); */
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
 }
 
 .list__cardInner {

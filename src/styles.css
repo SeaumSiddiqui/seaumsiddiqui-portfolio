@@ -135,10 +135,16 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    box-sizing: border-box; /* ADD — prevents padding from adding to width */
   }
 
+  html,
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    overflow-x: hidden; /* ADD — prevents horizontal scroll */
+    margin: 0; /* ADD — removes browser default margin */
+    padding: 0; /* ADD — removes any default padding */
+    width: 100%;
   }
 }

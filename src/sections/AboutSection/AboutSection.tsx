@@ -57,7 +57,7 @@ export default function AboutSection() {
             <p className={styles.about__statement} data-reveal="body">
               {data?.statement}
             </p>
-            <div data-reveal="action">
+            <div data-reveal="action" className={styles.about__action}>
               <LiquidButton href={data?.resume ?? "#"} label="View Resume" />
             </div>
           </div>

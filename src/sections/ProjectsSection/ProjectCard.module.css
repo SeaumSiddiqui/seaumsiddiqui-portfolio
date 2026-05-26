@@ -46,7 +46,7 @@
 /* ── RIGHT PANEL ── light, slides in from right */
 .card__right {
   position: relative;
-  width: 0; 
+  width: 0;
   overflow: hidden;
   flex-shrink: 0;
   background: var(--color-bg-subtle);
@@ -114,7 +114,7 @@
 .card__desc::after {
   content: "";
   position: absolute;
-  bottom: 20px; 
+  bottom: 20px;
   left: 0;
   right: 0;
   height: 2.5em;
@@ -131,7 +131,7 @@
   overflow: visible;
   margin-bottom: 16px;
   align-content: flex-start;
-  position: relative; 
+  position: relative;
 }
 
 .card__tag {
@@ -150,7 +150,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  margin-top: auto; 
+  margin-top: auto;
   flex-shrink: 0;
 }
 

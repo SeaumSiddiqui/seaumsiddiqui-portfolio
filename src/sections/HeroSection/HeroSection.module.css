@@ -34,7 +34,7 @@
   width: calc(100vw - (var(--site-padding) * 2));
   text-align: center;
 
-  opacity:    0;
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
