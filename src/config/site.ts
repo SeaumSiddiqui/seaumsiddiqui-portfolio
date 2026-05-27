@@ -1,11 +1,11 @@
 export const siteConfig = {
-  name: "Seaum Siddiqui",
+  name: "SEAUM SIDDIQUI",
   description: "Portfolio of Seaum Siddiqui.",
   nav: [
-    { label: "Home", href: "/" },
-    { label: "Work", href: "/work" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
+    { label: "Home", href: "/" },    
+    { label: "About", href: "/#about" },
+    { label: "Work", href: "/#projects" },
+    { label: "Archive", href: "/archive" },
   ],
   socials: [] as { label: string; href: string }[],
 };

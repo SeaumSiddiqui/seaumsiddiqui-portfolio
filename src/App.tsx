@@ -12,13 +12,20 @@ import "./styles/typography.css";
 
 function LenisProvider({ children }: { children: React.ReactNode }) {
   useLenis();
+
   useEffect(() => {
     document.body.style.backgroundColor = "var(--color-bg)";
-    document.documentElement.style.visibility = "hidden";
-    document.fonts.ready.then(() => {
-      document.documentElement.style.visibility = "visible";
-    });
+
+    // image fade-in
+    const handleImageLoad = (e: Event) => {
+      const img = e.target as HTMLImageElement;
+      if (img.tagName === "IMG") img.classList.add("loaded");
+    };
+    document.addEventListener("load", handleImageLoad, true);
+
+    return () => document.removeEventListener("load", handleImageLoad, true);
   }, []);
+
   return <>{children}</>;
 }
 

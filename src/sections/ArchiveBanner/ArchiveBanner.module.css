@@ -84,30 +84,30 @@
 
 /* clip container */
 .banner__stackWrap {
-  overflow:    hidden;
-  height:      100%;
-  mask-image:  linear-gradient(to top, black 60%, transparent 100%);
+  overflow: hidden;
+  height: 100%;
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
 }
 
 .banner__stack {
-  display:        flex;
+  display: flex;
   flex-direction: column;
-  animation:      stackScroll 18s linear infinite;
-  will-change:    transform;
+  animation: stackScroll 18s linear infinite;
+  will-change: transform;
 }
 
 .banner__stackItem {
-  font-family:    var(--font-label);
-  font-weight:    var(--font-label-weight);
-  font-size:      var(--font-label-small);
+  font-family: var(--font-label);
+  font-weight: var(--font-label-weight);
+  font-size: var(--font-label-small);
   letter-spacing: 0.12em;
-  color:          var(--color-text-muted);
-  white-space:    nowrap;
+  color: var(--color-text-muted);
+  white-space: nowrap;
   padding-bottom: 6px;
-  flex-shrink:    0;
+  flex-shrink: 0;
 }
 
 @keyframes stackScroll {
-  0%   { transform: translateY(0); }
+  0% { transform: translateY(0); }
   100% { transform: translateY(-50%); }
 }

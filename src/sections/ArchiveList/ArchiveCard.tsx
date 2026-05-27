@@ -56,7 +56,7 @@ export default function ArchiveCard({ project }: { project: Project }) {
     <div className={styles.container}>
       {/* LEFT — image */}
       <div className={styles.left} onMouseEnter={onEnter} onMouseLeave={onLeave}>
-        {imageSrc && <img src={imageSrc} alt={project.name} />}
+        {imageSrc && <img src={imageSrc} alt={project.name} onLoad={(e) => e.currentTarget.classList.add("loaded")}/>}
       </div>
 
       {/* BACK — info card */}

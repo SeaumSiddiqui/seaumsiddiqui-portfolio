@@ -135,23 +135,44 @@
 @layer base {
   * {
     border-color: var(--color-border);
-    box-sizing: border-box; /* ADD — prevents padding from adding to width */
+    box-sizing: border-box;
+  }
+  
+  img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  html,
+  img.loaded {
+    opacity: 1;
+  }
+
+  html {
+    visibility: hidden;       /* hide until fonts load */
+    scrollbar-width: none;
+    overflow-y: scroll;
+  }
+
+  html.fonts-loaded {
+    visibility: visible;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
     background-color: var(--color-background);
-    color:            var(--color-foreground);
-    overflow-x:       hidden;
-    margin:           0;
-    padding:          0;
-    width:            100%;
-    scrollbar-width:  none;        /* Firefox */
-    overflow-y:       scroll;      /* reserve space, prevent layout shift */
+    color: var(--color-foreground);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    scrollbar-width: none;
   }
 
-  html::-webkit-scrollbar,
   body::-webkit-scrollbar {
-    display: none;                 /* Chrome, Safari */
+    display: none;
   }
 }

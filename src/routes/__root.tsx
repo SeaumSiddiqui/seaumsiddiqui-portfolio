@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 
@@ -141,11 +142,21 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function FontLoader() {
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      document.documentElement.classList.add("fonts-loaded");
+    });
+  }, []);
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <FontLoader />
       <Outlet />
     </QueryClientProvider>
   );

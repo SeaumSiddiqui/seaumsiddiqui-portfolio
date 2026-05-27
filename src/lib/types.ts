@@ -20,18 +20,18 @@ export interface NavigationData {
 }
 
 export const NAV_FALLBACK: NavigationData = {
-  brandName: "Seaum Siddiqui",
+  brandName: "SEAUM SIDDIQUI",
   logo: null,
   copyright: "2026",
   navLinks: [
-    { label: "About", href: "/about", external: false },
-    { label: "Works", href: "/works", external: false },
-    { label: "Stats", href: "/stats", external: false },
+    { label: "ABOUT", href: "/#about", external: false },
+    { label: "WORK", href: "/#projects", external: false },
+    { label: "ARCHIVE", href: "/archive", external: false },
   ],
   socialLinks: [
-    { label: "LinkedIn", href: "https://linkedin.com" },
-    { label: "GitHub", href: "https://github.com" },
-    { label: "Instagram", href: "https://instagram.com" },
+    { label: "LINKEDIN", href: "https://linkedin.com" },
+    { label: "GITHUB", href: "https://github.com" },
+    { label: "LEETCODE", href: "https://instagram.com" },
   ],
   availabilityText: "Available for work",
   availabilitySub: "Open to full-time & freelance",

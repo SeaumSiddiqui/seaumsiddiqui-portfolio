@@ -14,7 +14,7 @@ interface HeroData {
   portrait: any;
 }
 
-const FALLBACK_ROLES = ["Backend Engineer", "JAVA, SPRING BOOT", "MICROSERVICES ARCHITECT"];
+const FALLBACK_ROLES = ["BACKEND ENGINEER", "JAVA, SPRING BOOT", "MICROSERVICES ARCHITECT"];
 const FALLBACK_LOCATION = "Dhaka, Bangladesh";
 
 function formatLocation(loc: string) {
@@ -28,53 +28,57 @@ function formatLocation(loc: string) {
 }
 
 export default function HeroSection() {
-  const { nav } = useNavigation();
-  const { data } = useSanityQuery<HeroData>(HERO_QUERY);
-  const roleRef = useRef<HTMLDivElement>(null);
+  const { nav }           = useNavigation();
+  const { data, loading } = useSanityQuery<HeroData>(HERO_QUERY);
+  const roleRef           = useRef<HTMLDivElement>(null);
 
-  const roles = data?.roles ?? FALLBACK_ROLES;
-  const location = data?.location ?? FALLBACK_LOCATION;
-  const loc = formatLocation(location);
-  const primaryRole = roles[0] ?? "";
+  const roles          = data?.roles    ?? FALLBACK_ROLES;
+  const location       = data?.location ?? FALLBACK_LOCATION;
+  const loc            = formatLocation(location);
+  const primaryRole    = roles[0] ?? "";
   const secondaryRoles = roles.slice(1);
 
-  const portraitSrc = data?.portrait ? urlFor(data.portrait).width(840).url() : portraitImg;
+  const portraitSrc = data?.portrait
+    ? urlFor(data.portrait).width(840).url()
+    : portraitImg;
 
-  // Fit primary role text to full viewport width
   useEffect(() => {
     const el = roleRef.current;
     if (!el || !primaryRole) return;
 
     const fit = () => {
-      el.style.fontSize = "100px";
-      el.style.width = "max-content";
+      el.style.fontSize  = "100px";
+      el.style.width     = "max-content";
       const naturalWidth = el.scrollWidth;
-      el.style.width = "";
-      const available = el.getBoundingClientRect().width;
-      el.style.fontSize = `${(available / naturalWidth) * 100}px`;
-      el.style.opacity = "1"; // ← show after sized
+      el.style.width     = "";
+      const available    = el.getBoundingClientRect().width;
+      el.style.fontSize  = `${(available / naturalWidth) * 100}px`;
+      el.style.opacity   = "1";
     };
-    // if data just loaded, wait one frame for DOM to update
+
     const rafId = requestAnimationFrame(fit);
     window.addEventListener("resize", fit);
-
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", fit);
     };
   }, [primaryRole]);
 
+  // render skeleton until both nav and hero data ready
+  if (loading) return (
+    <section className={styles.hero} data-section="hero">
+      <Navbar position="absolute" />
+    </section>
+  );
+
   return (
     <section className={styles.hero} data-section="hero">
-      {/* ── NAVBAR ── */}
       <Navbar position="absolute" />
 
-      {/* ── PRIMARY ROLE ── */}
       <div ref={roleRef} className={styles.hero__primaryRole}>
         {primaryRole}
       </div>
 
-      {/* ── LOCATION ── */}
       <div className={styles.hero__location}>
         <span className={styles.hero__locationLabel}>
           <span>{loc.line1}</span>
@@ -82,7 +86,6 @@ export default function HeroSection() {
         </span>
       </div>
 
-      {/* ── HERO BODY ── */}
       <div className={styles.hero__body}>
         <div className={styles.hero__parentBox}>
           <div className={styles.hero__roles}>
@@ -92,7 +95,6 @@ export default function HeroSection() {
               </span>
             ))}
           </div>
-
           <div className={styles.hero__portrait}>
             <PortraitCanvas src={portraitSrc} />
           </div>

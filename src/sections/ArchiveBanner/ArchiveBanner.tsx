@@ -11,10 +11,15 @@ interface ArchiveData {
   subText: string;
   techStack: string[];
 }
+
 export default function ArchiveBanner() {
-  const { data } = useSanityQuery<ArchiveData>(ARCHIVE_QUERY);
+  const { data, loading } = useSanityQuery<ArchiveData>(ARCHIVE_QUERY);
 
-
+  if (loading) return (
+    <section className={styles.banner} data-section="archive-banner">
+      <Navbar position="absolute" />
+    </section>
+  );
 
   return (
     <section className={styles.banner} data-section="archive-banner">
