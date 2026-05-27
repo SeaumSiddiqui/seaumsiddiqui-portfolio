@@ -1,3 +1,5 @@
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
 import { useSanityQuery } from "@/lib/useSanity";
 import { ARCHIVE_QUERY } from "@/lib/queries";
 import styles from "./ArchiveBanner.module.css";
@@ -11,6 +13,8 @@ interface ArchiveData {
 }
 export default function ArchiveBanner() {
   const { data } = useSanityQuery<ArchiveData>(ARCHIVE_QUERY);
+
+
 
   return (
     <section className={styles.banner} data-section="archive-banner">
@@ -29,13 +33,15 @@ export default function ArchiveBanner() {
 
         {/* BOTTOM LEFT — tech stack */}
         <div className={styles.banner__cell}>
-          <ul className={styles.banner__stack}>
-            {(data?.techStack ?? []).map((tech) => (
-              <li key={tech} className={styles.banner__stackItem}>
-                {tech}
-              </li>
-            ))}
-          </ul>
+          <div className={styles.banner__stackWrap}>
+            <div className={styles.banner__stack}>
+              {[...(data?.techStack ?? []), ...(data?.techStack ?? [])].map((tech, i) => (
+                <div key={i} className={styles.banner__stackItem}>
+                  {tech}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* BOTTOM RIGHT — ARCHIVE */}
