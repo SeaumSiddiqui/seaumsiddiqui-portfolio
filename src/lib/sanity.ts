@@ -9,11 +9,20 @@ if (!projectId) {
   );
 }
 
+const token = import.meta.env.VITE_SANITY_TOKEN;
+
 export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion: "2024-01-01",
-  useCdn: true,
+  useCdn: false,
+  token,
+  perspective: "drafts",
+  ignoreBrowserTokenWarning: true,
+  stega: {
+    enabled: true,
+    studioUrl: 'http://localhost:3333',
+  },
 });
 
 const builder = createImageUrlBuilder(sanityClient);

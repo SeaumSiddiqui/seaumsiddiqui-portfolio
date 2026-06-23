@@ -73,14 +73,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Seaum Siddiqui — Backend Engineer" },
+      { title: "Seaum Siddiqui - Backend Engineer" },
       { name: "description", content: "Portfolio of Seaum Siddiqui, a Backend Engineer specializing in Java, Spring Boot, Microservices, and Full-Stack Development based in Dhaka, Bangladesh." },
       { name: "author", content: "Seaum Siddiqui" },
       { name: "robots", content: "index, follow" },
       { name: "keywords", content: "Seaum Siddiqui, Backend Engineer, Java Developer, Spring Boot, Microservices, Full-Stack Developer, Dhaka, Bangladesh, Software Engineer" },
 
       // Open Graph
-      { property: "og:title", content: "Seaum Siddiqui — Backend Engineer" },
+      { property: "og:title", content: "Seaum Siddiqui - Backend Engineer" },
       { property: "og:description", content: "Portfolio of Seaum Siddiqui, a Backend Engineer specializing in Java, Spring Boot, and Microservices." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://seaumsiddiqui.vercel.app" },
@@ -88,7 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Seaum Siddiqui — Backend Engineer" },
+      { name: "twitter:title", content: "Seaum Siddiqui - Backend Engineer" },
       { name: "twitter:description", content: "Portfolio of Seaum Siddiqui, Backend Engineer based in Dhaka, Bangladesh." },
       { name: "twitter:image", content: "https://seaumsiddiqui.vercel.app/og-image.png" },
     ],
@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/icon128.png", sizes: "128x128", type: "image/png" },
 
       // 3. Ultimate Fallback (Your file named 'favicon' without dimensions)
-      { rel: "icon", href: "/favicon.ico", sizes: "any" }, 
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
 
       // 4. Android Chrome Large Icon
       { rel: "icon", href: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
@@ -117,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&family=Source+Sans+3:wght@400&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&family=Source+Sans+3:wght@400&family=Archivo+Narrow:wght@400;700&family=Inter:wght@400;500;700;900&display=swap",
       },
       { rel: "stylesheet", href: appCss },
     ],
@@ -151,13 +151,15 @@ function FontLoader() {
   return null;
 }
 
+import App from "../App";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       <FontLoader />
-      <Outlet />
+      <App />
     </QueryClientProvider>
   );
 }

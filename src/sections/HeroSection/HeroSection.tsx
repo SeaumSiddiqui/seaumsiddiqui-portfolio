@@ -1,14 +1,11 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import portraitImg from "@/assets/portrait.png";
 import PortraitCanvas from "./PortraitCanvas";
-import { useSanityQuery } from "@/lib/useSanity";
-import { HERO_QUERY } from "@/lib/queries";
 import { urlFor } from "@/lib/sanity";
-import { useNavigation } from "@/lib/useNavigation";
 import styles from "./HeroSection.module.css";
-import Navbar from "@/components/Navbar/Navbar";
 
-interface HeroData {
+
+export interface HeroData {
   roles: string[];
   location: string;
   portrait: any;
@@ -27,9 +24,7 @@ function formatLocation(loc: string) {
   };
 }
 
-export default function HeroSection() {
-  const { nav }           = useNavigation();
-  const { data, loading } = useSanityQuery<HeroData>(HERO_QUERY);
+export default function HeroSection({ data }: { data?: HeroData | null }) {
   const roleRef           = useRef<HTMLDivElement>(null);
 
   const roles          = data?.roles    ?? FALLBACK_ROLES;
@@ -47,33 +42,37 @@ export default function HeroSection() {
     if (!el || !primaryRole) return;
 
     const fit = () => {
+      // 1. Measure the container's layout-defined width first
+      const available = el.getBoundingClientRect().width;
+      
+      // 2. Compute natural width at a base font size
       el.style.fontSize  = "100px";
       el.style.width     = "max-content";
-      const naturalWidth = el.scrollWidth;
+      const naturalWidth = el.getBoundingClientRect().width; // Subpixel precision!
+      
+      // 3. Restore and scale font size to stretch perfectly
       el.style.width     = "";
-      const available    = el.getBoundingClientRect().width;
       el.style.fontSize  = `${(available / naturalWidth) * 100}px`;
       el.style.opacity   = "1";
     };
 
     const rafId = requestAnimationFrame(fit);
     window.addEventListener("resize", fit);
+    
+    // Recalculate once custom fonts load to prevent fallback font width mismatch
+    document.fonts.ready.then(fit);
+
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", fit);
     };
   }, [primaryRole]);
 
-  // render skeleton until both nav and hero data ready
-  if (loading) return (
-    <section className={styles.hero} data-section="hero">
-      <Navbar position="absolute" />
-    </section>
-  );
-
   return (
-    <section className={styles.hero} data-section="hero">
-      <Navbar position="absolute" />
+    <section 
+      className={styles.hero} 
+      data-section="hero"
+    >
 
       <div ref={roleRef} className={styles.hero__primaryRole}>
         {primaryRole}

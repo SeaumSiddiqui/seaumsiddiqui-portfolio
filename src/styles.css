@@ -137,7 +137,7 @@
     border-color: var(--color-border);
     box-sizing: border-box;
   }
-  
+
   img {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -148,9 +148,10 @@
   }
 
   html {
-    visibility: hidden;       /* hide until fonts load */
+    visibility: hidden;
     scrollbar-width: none;
     overflow-y: scroll;
+    /* scroll is on html — Lenis takes over this */
   }
 
   html.fonts-loaded {
@@ -162,10 +163,11 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background-color: var(--color-bg);
     color: var(--color-foreground);
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: visible;
+    /* MUST be visible — hidden clips sticky children */
     margin: 0;
     padding: 0;
     width: 100%;
@@ -174,5 +176,13 @@
 
   body::-webkit-scrollbar {
     display: none;
+  }
+
+  /* main is a plain block — sections inside are sticky and self-manage */
+  main {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 }

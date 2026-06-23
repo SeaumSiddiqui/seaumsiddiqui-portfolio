@@ -18,9 +18,10 @@ type Props = {
   src: string;
   alt?: string;
   className?: string;
+  onLoad?: () => void;
 };
 
-export default function PortraitCanvas({ src, alt, className }: Props) {
+export default function PortraitCanvas({ src, alt, className, onLoad }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function PortraitCanvas({ src, alt, className }: Props) {
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = SRGBColorSpace;
     const canvas = renderer.domElement;
     canvas.style.width = "100%";
     canvas.style.height = "100%";
@@ -71,6 +73,7 @@ export default function PortraitCanvas({ src, alt, className }: Props) {
       tex.colorSpace = SRGBColorSpace;
       texture = tex;
       material.uniforms.uTexture.value = tex;
+      if (onLoad) onLoad();
     });
 
     const resize = () => {

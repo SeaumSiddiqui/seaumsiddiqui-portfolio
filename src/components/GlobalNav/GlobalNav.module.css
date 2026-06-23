@@ -1,0 +1,50 @@
+.globalNav {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px var(--site-padding);
+}
+
+.topRow, .bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navItem {
+  pointer-events: auto;
+  font-family: var(--font-family);
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff; /* Use pure white for mix-blend-mode to calculate the exact inverse */
+  mix-blend-mode: difference;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+}
+
+.navItem:hover {
+  opacity: 0.7;
+}
+
+.centerItem {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lowercase {
+  text-transform: lowercase;
+  /* Increased significantly as requested to ensure it doesn't look small */
+  font-size: clamp(18px, 1.5vw, 22px);
+}

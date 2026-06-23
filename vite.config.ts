@@ -13,4 +13,13 @@ export default defineConfig({
       preset: "vercel",
     }),
   ],
+  environments: {
+    ssr: {
+      build: {
+        rollupOptions: {
+          input: "./src/server.ts",
+        },
+      },
+    },
+  },
 });

@@ -22,22 +22,16 @@ void main() {
   float dispAmt  = blob * uStrength * 0.07;
   vec2 displaced = uv + velDir * dispAmt;
 
-  float aberr = blob * uStrength * 0.038;
-  vec4 colR = texture2D(uTexture, displaced + velDir * aberr * 2.0);
-  vec4 colG = texture2D(uTexture, displaced);
-  vec4 colB = texture2D(uTexture, displaced - velDir * aberr * 1.8);
-  vec4 colorAber = vec4(colR.r, colG.g, colB.b, colG.a);
+  vec4 colorClean     = texture2D(uTexture, uv);
+  vec4 colorDisplaced = texture2D(uTexture, displaced);
 
-  vec4 colorClean = texture2D(uTexture, uv);
-
-  // Discard fully transparent pixels — keep PNG cutout clean
   if (colorClean.a < 0.05) discard;
 
-  float luma       = dot(colorClean.rgb, vec3(0.299, 0.587, 0.114));
-  float lumaBright = clamp(luma * 1.5 + 0.22, 0.0, 1.0);
-  vec4 gray        = vec4(vec3(lumaBright), colorClean.a);
+  float reveal  = pow(blob, 2.0) * uStrength * step(0.1, blob);
+  vec3 finalRgb = mix(colorClean.rgb, colorDisplaced.rgb, clamp(reveal, 0.0, 1.0));
 
-  float colorReveal = pow(blob, 0.6) * uStrength;
-  vec3 finalRgb = mix(gray.rgb, colorAber.rgb, colorReveal);
+  // Correct for double gamma — bring brightness back to match original
+  finalRgb = pow(finalRgb, vec3(1.0 / 1.8));
+
   gl_FragColor = vec4(finalRgb, colorClean.a);
 }

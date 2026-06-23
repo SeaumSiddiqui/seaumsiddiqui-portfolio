@@ -1,75 +1,105 @@
-export const NAV_QUERY = `
-  *[_type == "navigation"][0] {
-    brandName,
-    logo { asset->{ url } },
-    copyright,
-    navLinks[] { label, href, external },
-    socialLinks[] { label, href },
-    availabilityText,
-    availabilitySub
-  }
-`;
-
 export const HERO_QUERY = `
   *[_type == "hero"][0] {
-    name,
     roles,
     location,
-    portrait,
-    copyright
+    portrait
   }
 `;
 
-export const ABOUT_QUERY = `
-  *[_type == "about"][0] {
-    statement,
-    resume,
-    experience[] {
-      company,
-      location,
-      period,
-      role,
-      brief
+export const EXPERIENCES_QUERY = `
+  *[_type == "experience"] | order(index asc) {
+    "id": _id,
+    index,
+    label,
+    headline,
+    company,
+    role,
+    period,
+    bullets
+  }
+`;
+
+export const EXPERTISE_QUERY = `
+  *[_type == "expertise"][0] {
+    resumeUrl,
+    skills,
+    certifications
+  }
+`;
+
+export const PROJECTS_QUERY = `
+  *[_type == "project" && featured == true] | order(index asc) {
+    "id": _id,
+    index,
+    title,
+    description,
+    tech,
+    githubUrl,
+    liveUrl,
+    imageColor,
+    "coverImage": coverImage.asset->url,
+    "coverImageLandscape": coverImageLandscape.asset->url,
+    sections[] {
+      "id": _key,
+      titleText,
+      descText,
+      "bannerImage": bannerImage.asset->url,
+      collapsibleItems
     }
   }
 `;
 
-export const PROJECTS_QUERY = `*[_type == "project"][featured == true] | order(order asc) {
-  _id, index, name, abbr, summary, tags, imagePortrait, href
-}`;
+export const ALL_PROJECTS_QUERY = `
+  *[_type == "project"] | order(index asc) {
+    "id": _id,
+    index,
+    title,
+    description,
+    tech,
+    githubUrl,
+    liveUrl,
+    imageColor,
+    "coverImage": coverImage.asset->url,
+    "coverImageLandscape": coverImageLandscape.asset->url,
+    sections[] {
+      "id": _key,
+      titleText,
+      descText,
+      "bannerImage": bannerImage.asset->url,
+      collapsibleItems
+    }
+  }
+`;
 
-export const STATS_QUERY = `*[_type == "stats"][0]{
-  heading,
-  subHeading,
-  statCards[]{
-    icon{ asset->{ url } },
-    value,
-    label,
-    subLabel
-  },
-  commitsFrom,
-  commitsTo
-}`;
-
-export const ARCHIVE_QUERY = `*[_type == "archive"][0]{
-  headingLine1,
-  headingLine2,
-  subText,
-  techStack
-}`;
-
-export const ARCHIVE_PROJECTS_QUERY = `*[_type == "project"] | order(order asc) {
-  _id, order, name, title, abbr, client, date,
-  desc[] { _key, _type, style, children[]{ _key, _type, text, marks }, markDefs, listItem, level },
-  summary, tags, imageLandscape, href, featured
-}`;
-
-export const FOOTER_QUERY = `
-  *[_type == "footer"][0] {
+export const CLOSING_QUERY = `
+  *[_type == "closing"][0] {
+    buildText,
     email,
+    githubUrl,
+    linkedinUrl,
+    twitterUrl,
+    leetcodeUrl,
+    footerText
+  }
+`;
+export const MENU_OVERLAY_QUERY = `
+  *[_type == "menuOverlay"][0] {
     navLinks,
-    socials,
-    location,
-    timezone
+    copyrightText,
+    profileName,
+    profileDesc,
+    socialLinks,
+    email,
+    timezonePrefix,
+    timezoneCity,
+    "bottomImage": bottomImage.asset->url
+  }
+`;
+
+export const ARCHIVE_PAGE_QUERY = `
+  *[_type == "archivePage"][0] {
+    pageTitle,
+    pageDescription,
+    pageMeta
   }
 `;

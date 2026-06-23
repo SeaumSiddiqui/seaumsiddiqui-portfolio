@@ -1,49 +1,64 @@
 :root {
+  /* MONOLITHIC ARCHITECT // TOKEN.CSS
+
   /* Grayscale Palette */
-  --color-100: #0a0a0a;
-  --color-200: #323232;
-  --color-300: #727272;
-  --color-400: #e0e0e0;
-  --color-500: #f7f7f7;
+  --color-100: #121414;
+  --color-200: #262626;
+  --color-250: #5c5c5c;
+  --color-300: #c4c7c7;
+  --color-400: #a3a3a3;
+  --color-500: #dfdfdf;
+  /* Primary Text / High-contrast */
 
-  /* Semantic aliases */
-  --color-bg: var(--color-500);
-  --color-bg-subtle: var(--color-400);
-  --color-border: var(--color-300);
-  --color-text-muted: var(--color-300);
-  --color-text-pop: var(--color-200);
-  --color-text-primary: var(--color-100);
+  /* Semantic Aliases */
+  --color-bg: var(--color-100);
+  --color-bg-subtle: #1a1c1c;
+  --color-bg-reverse: #D1D1D1;
+  --color-border: var(--color-200);
+  --color-text-primary: var(--color-500);
+  --color-text-secondary: var(--color-300);
+  --color-text-muted: var(--color-400);
+  --color-accent: #d946ef;
 
-  /* Heading — Magnat Text 700 */
-  --font-heading: "Magnat Text", "Space Grotesk";
-  --font-heading-weight: 700;
-  --font-heading-size: 38px;
-  --font-heading-lh: 53px;
-  --font-heading-color: var(--color-180);
+  /* Typography — Archivo Narrow (Primary Design Language) */
+  --font-family: "Archivo Narrow", sans-serif;
+  /* Heading Styles */
+  --font-heading-display: var(--font-family);
+  --font-heading-display-size: 144px;
+  --font-heading-display-lh: 0.9;
+  --font-heading-display-tracking: -0.04em;
+  --font-heading-display-weight: 700;
 
-  /* Label / Nav — JetBrains Mono 500 */
-  /* --font-label: "JetBrains Mono", "Courier Prime", monospace; */
-  --font-label: "JetBrains Mono";
-  --font-label-weight: 400;
-  --font-label-large: 29px;
-  --font-label-small: 16px;
-  --font-label-lh: 22px;
-  --font-label-color: var(--color-200);
+  --font-heading-section: var(--font-family);
+  --font-heading-section-size: 56px;
+  --font-heading-section-lh: 1.1;
+  --font-heading-section-tracking: -0.02em;
+  --font-heading-section-weight: 700;
 
-  /* Body — Source Sans 3 400 */
-  /* --font-body: "Source Sans 3", "Neue Helvetica", Helvetica, sans-serif; */
+  /* Label / Technical Nav */
+  --font-label: "JetBrains Mono", monospace;
+  --font-label-weight: 500;
+  --font-label-size: 14px;
+  --font-label-lh: 1.4;
+  --font-label-tracking: 0.12em;
+  /* Wide tracking for technical metadata */
+  --font-label-color: var(--color-300);
+
+  /* Body Narrative */
   --font-body: "Source Sans 3";
-  --font-body-weight: 500;
-  --font-body-large: 19px;
-  --font-body-small: 13px;
-  --font-body-lh: 27px;
-  --font-body-color: var(--color-100);
+  --font-body-weight: 400;
+  --font-body-size: 18px;
+  --font-body-lh: 1.6;
+  --font-body-tracking: 0.01em;
+  --font-body-color: var(--color-500);
 
-  /* Custom cursor */
-  --cursor-color: #3200e6;
-  --cursor-size: 10px;
-  --cursor-size-hover: 36px;
+  /* Interaction & UI */
+  --cursor-color: #3313c5;
+  --cursor-size: 8px;
+  --cursor-size-hover: 48px;
 
-  /* Side padding for the entire site */
-  --site-padding: clamp(40px, 8vw, 125px);
+  /* Layout Spacing */
+  --site-padding: clamp(40px, 8vw, 60px);
+  --stack-gap: 32px;
+  --section-gap: 120px;
 }

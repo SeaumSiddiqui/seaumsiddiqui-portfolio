@@ -1,0 +1,352 @@
+.section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.leftCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-border);
+  padding: 60px 40px 60px 60px;
+  box-sizing: border-box;
+}
+
+.rightCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 60px 60px 40px;
+  box-sizing: border-box;
+}
+
+.narrativeCol {
+  justify-content: space-between;
+  background-color: var(--color-bg);
+}
+
+.visualCol {
+  justify-content: center;
+  background-color: var(--color-bg-subtle);
+}
+
+/* Narrative Side */
+.narrative {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 40px;
+}
+
+.topSection {
+  margin-bottom: 80px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.label {
+  font-family: var(--font-label);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.verticalLine {
+  width: 1px;
+  height: 48px;
+  background-color: var(--color-border);
+}
+
+.index {
+  font-family: var(--font-heading-section);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.middleSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.visitLink {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+  align-self: flex-start;
+  text-align: left;
+}
+
+.visitLink:hover {
+  color: var(--color-text-primary);
+}
+
+.title {
+  font-family: var(--font-heading-section);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin: 0 0 40px 0;
+  text-transform: uppercase;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease, text-shadow 0.4s ease;
+  transform-origin: left center;
+  cursor: pointer;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.rightAlign .title {
+  transform-origin: right center;
+}
+
+.title:hover {
+  transform: scale(1.05) translateY(-4px);
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}
+
+.horizontalLine {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-border);
+  margin-bottom: 24px;
+}
+
+.manifestHeader {
+  font-family: var(--font-label);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin-bottom: 64px;
+}
+
+.techItem {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.techSquare {
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.description {
+  margin: 0 0 64px 0;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  max-width: 90%;
+}
+
+.links {
+  display: flex;
+  width: 100%;
+}
+
+.actionBtn {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 16px 24px;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 280px;
+}
+
+.actionBtn:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+}
+
+.arrow {
+  display: inline-block;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.actionBtn:hover .arrow,
+.visitLink:hover .arrow {
+  transform: rotate(0deg);
+}
+
+
+/* Right Align Modifications (When Narrative is on the right panel) */
+.rightAlign {
+  text-align: right;
+}
+
+.rightAlign .meta {
+  flex-direction: row-reverse;
+}
+
+.rightAlign .visitLink {
+  text-align: right;
+  align-self: flex-end;
+}
+
+.rightAlign .manifestHeader {
+  text-align: right;
+}
+
+.rightAlign .techGrid {
+  direction: rtl;
+}
+
+.rightAlign .techItem {
+  direction: ltr;
+  flex-direction: row-reverse;
+}
+
+.rightAlign .description {
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.rightAlign .links {
+  justify-content: flex-end;
+}
+
+
+/* Visual Side (Image) */
+.visual {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagePlate {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg);
+}
+
+.coverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+.imagePlaceholderText {
+  font-family: var(--font-label);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: absolute;
+  z-index: 2;
+}
+
+.imagePlate::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0.2;
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 1;
+}
+
+/* Responsive adjustments for shorter or smaller screens */
+@media (max-height: 850px), (max-width: 1200px) {
+  .narrativeCol {
+    padding-bottom: 120px;
+  }
+  .topSection {
+    margin-bottom: 60px;
+  }
+  .title {
+    font-size: 56px;
+    margin: 0 0 32px 0;
+  }
+  .techGrid {
+    margin-bottom: 48px;
+  }
+  .description {
+    margin: 0 0 48px 0;
+  }
+}
+
+@media (max-height: 650px) {
+  .narrativeCol {
+    padding-bottom: 100px;
+  }
+  .topSection {
+    margin-bottom: 40px;
+  }
+  .title {
+    font-size: 48px;
+    margin: 0 0 24px 0;
+  }
+  .techGrid {
+    margin-bottom: 32px;
+  }
+  .description {
+    margin: 0 0 32px 0;
+  }
+}

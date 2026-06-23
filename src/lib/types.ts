@@ -26,7 +26,7 @@ export const NAV_FALLBACK: NavigationData = {
   navLinks: [
     { label: "ABOUT", href: "/#about", external: false },
     { label: "WORK", href: "/#projects", external: false },
-    { label: "ARCHIVE", href: "/archive", external: false },
+    { label: "ARCHIVE", href: "/#archive-list", external: false },
   ],
   socialLinks: [
     { label: "LINKEDIN", href: "https://linkedin.com" },
@@ -36,3 +36,28 @@ export const NAV_FALLBACK: NavigationData = {
   availabilityText: "Available for work",
   availabilitySub: "Open to full-time & freelance",
 };
+export interface MenuOverlayData {
+  navLinks: {
+    num: string;
+    title: string;
+    meta: string;
+    to: string;
+  }[];
+  copyrightText: string;
+  profileName: string;
+  profileDesc: string;
+  socialLinks: {
+    label: string;
+    url: string;
+  }[];
+  email: string;
+  timezonePrefix: string;
+  timezoneCity: string;
+  bottomImage: string;
+}
+
+export interface ArchivePageData {
+  pageTitle: string;
+  pageDescription: string;
+  pageMeta: string;
+}

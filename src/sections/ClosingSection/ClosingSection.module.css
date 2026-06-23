@@ -1,0 +1,205 @@
+/* ── CLOSING BOX OVERLAY ──
+   Four panels that close in from all edges over the ArchiveList.
+   Left panel holds "Reach", right panel holds "Out".
+   All panels start at 0 size, GSAP grows them to 50% to fully close. */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── SIDE PANELS ── */
+.panelLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: var(--color-100);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.panelRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 0;
+  background: var(--color-100);
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* ── TOP / BOTTOM PANELS ── */
+.panelTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--color-100);
+  z-index: 1;
+}
+
+.panelBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--color-100);
+  z-index: 1;
+}
+
+/* ── NEW LAYOUT CONTAINERS ── */
+.viewportMaskLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.viewportMaskRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.buildText {
+  position: absolute;
+  top: 50%;
+  left: var(--site-padding);
+  transform: translateY(-50%);
+  font-family: var(--font-body);
+  font-size: clamp(20px, 2vw, 32px);
+  color: var(--color-300);
+  font-weight: 300;
+}
+
+.footerText {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-label);
+  font-size: 12px;
+  color: var(--color-400);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  z-index: 10;
+}
+
+/* ── CONNECT CLUSTER ── */
+.connectCluster {
+  position: absolute;
+  top: 50%;
+  right: var(--site-padding);
+  transform: translateY(-50%);
+  width: max-content;
+}
+
+.connectText {
+  font-family: "Impact", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 22vw;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  display: flex;
+  transform: scaleY(1.07) scaleX(0.75);
+  transform-origin: right center;
+}
+
+.dimStroke {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.15);
+}
+
+.socialLink {
+  position: absolute;
+  color: var(--color-500);
+  font-family: "Inter", var(--font-heading-display);
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+}
+
+.socialLink:hover {
+  transform: scale(1.05) translateY(-4px);
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}
+
+.socialGithub {
+  font-size: 7.5vw;
+  font-weight: 700;
+  top: -60%;
+  right: 8%;
+}
+
+.socialLinkedin {
+  font-size: 4vw;
+  font-weight: 500;
+  top: -10%;
+  right: 36%;
+  color: var(--color-300);
+}
+
+.socialTwitter {
+  font-size: 1.5vw;
+  font-family: var(--font-body);
+  font-weight: 400;
+  top: 55%;
+  right: 29%;
+  color: var(--color-300);
+}
+
+.socialLeetcode {
+  font-size: 3.5vw;
+  font-weight: 500;
+  bottom: -30%;
+  right: 8%;
+}
+
+/* ── EMAIL BLOCK ── */
+.emailBlock {
+  position: absolute;
+  bottom: 10vh;
+  right: 10vw;
+  font-family: var(--font-body);
+  font-size: clamp(20px, 2vw, 36px);
+  color: var(--color-300);
+  z-index: 10;
+  pointer-events: auto;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+}
+
+.emailBlock:hover {
+  transform: translateY(-4px);
+}
+
+.emailLabel {
+  color: var(--color-400);
+  margin-right: 8px;
+}
+
+.emailValue {
+  color: var(--color-500);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.emailBlock:hover .emailValue {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}

@@ -1,0 +1,70 @@
+var mimicResponse;
+var hasRequiredMimicResponse;
+function requireMimicResponse() {
+  if (hasRequiredMimicResponse) return mimicResponse;
+  hasRequiredMimicResponse = 1;
+  const knownProperties = [
+    "aborted",
+    "complete",
+    "headers",
+    "httpVersion",
+    "httpVersionMinor",
+    "httpVersionMajor",
+    "method",
+    "rawHeaders",
+    "rawTrailers",
+    "setTimeout",
+    "socket",
+    "statusCode",
+    "statusMessage",
+    "trailers",
+    "url"
+  ];
+  mimicResponse = (fromStream, toStream) => {
+    if (toStream._readableState.autoDestroy) {
+      throw new Error("The second stream must have the `autoDestroy` option set to `false`");
+    }
+    const fromProperties = new Set(Object.keys(fromStream).concat(knownProperties));
+    const properties = {};
+    for (const property of fromProperties) {
+      if (property in toStream) {
+        continue;
+      }
+      properties[property] = {
+        get() {
+          const value = fromStream[property];
+          const isFunction = typeof value === "function";
+          return isFunction ? value.bind(fromStream) : value;
+        },
+        set(value) {
+          fromStream[property] = value;
+        },
+        enumerable: true,
+        configurable: false
+      };
+    }
+    Object.defineProperties(toStream, properties);
+    fromStream.once("aborted", () => {
+      toStream.destroy();
+      toStream.emit("aborted");
+    });
+    fromStream.once("close", () => {
+      if (fromStream.complete) {
+        if (toStream.readable) {
+          toStream.once("end", () => {
+            toStream.emit("close");
+          });
+        } else {
+          toStream.emit("close");
+        }
+      } else {
+        toStream.emit("close");
+      }
+    });
+    return toStream;
+  };
+  return mimicResponse;
+}
+export {
+  requireMimicResponse as r
+};

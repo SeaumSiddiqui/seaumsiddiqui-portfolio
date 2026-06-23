@@ -1,15 +1,14 @@
-/* One token drives ALL spacing — padding, gap, overflow amount */
 :root {
   --hero-gap: 32px;
 }
 
 .hero {
-  position: relative;
-
+  position: sticky;
+  top: 0;
   z-index: 1;
-  height: 100vh;
-  width: 100%;
+  height: 100dvh;
   overflow: hidden;
+  width: 100%;
   background-color: var(--color-bg);
 }
 
@@ -19,20 +18,20 @@
   position: absolute;
   bottom: calc(clamp(260px, 45vh, 900px) + calc(var(--hero-gap) * 1.6));
   z-index: 50;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
+  font-family: "Magnat Text", "Space Grotesk", sans-serif;
+  font-weight: 700;
   line-height: 0.9;
   letter-spacing: -0.03em;
-  color: var(--font-heading-color);
+  color: var(--color-500);
   white-space: nowrap;
   pointer-events: none;
   text-align: center;
   text-transform: uppercase;
 
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100vw - (var(--site-padding) * 2));
-  text-align: center;
+  left: calc(var(--site-padding) - 12.5px);
+  right: calc(var(--site-padding) - 6px);
+  width: auto;
+  text-align: left;
 
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -43,7 +42,8 @@
 .hero__body {
   position: absolute;
   bottom: var(--hero-gap);
-  left: 0; /* full width, no site-padding here */
+  left: 0;
+  /* full width, no site-padding here */
   right: 0;
   display: flex;
   align-items: flex-end;
@@ -52,38 +52,42 @@
   padding: 0 var(--site-padding);
   box-sizing: border-box;
 }
+
 .hero__parentBox {
   position: relative;
   width: clamp(300px, 40vw, 1400px);
   height: clamp(260px, 45vh, 900px);
-  background: var(--color-bg-subtle);
+  background: var(--color-bg-reverse);
   flex-shrink: 0;
-  padding-right: var(--hero-gap); /* enforces right spacing */
-  padding-bottom: var(--hero-gap); /* enforces bottom spacing */
+  padding-right: var(--hero-gap);
+  /* enforces right spacing */
+  padding-bottom: var(--hero-gap);
+  /* enforces bottom spacing */
   box-sizing: border-box;
 }
 
 .hero__portrait {
   position: absolute;
-  bottom: var(--hero-gap); /* sticks to bottom padding edge */
-  right: var(--hero-gap); /* sticks to right padding edge */
-  top: calc(var(--hero-gap) * -2); /* overflow top — unchanged */
-  width: clamp(180px, 18vw, 390px); /* own width */
-  background: #000000;
-  overflow: hidden;
+  bottom: var(--hero-gap);
+  /* sticks to bottom padding edge */
+  right: var(--hero-gap);
+  /* sticks to right padding edge */
+  top: calc(var(--hero-gap) * -2);
+  /* overflow top — unchanged */
+  width: clamp(282px, 18vw, 405px);
+  /* own width */
+  background: transparent;
 }
 
 .hero__roles {
   position: absolute;
   bottom: var(--hero-gap);
   left: 0;
-  right: calc(
-    clamp(180px, 18vw, 390px) + var(--hero-gap) + var(--hero-gap)
-  ); /* portrait width + gap + minimum gap */
+  right: calc(clamp(282px, 18vw, 405px) + var(--hero-gap) + var(--hero-gap));
+  /* portrait width + gap + minimum gap */
   display: flex;
   flex-direction: column;
   gap: 6px;
-  overflow: hidden;
 }
 
 .hero__role {
@@ -92,11 +96,12 @@
   font-size: clamp(10px, 1.2vw, 18px);
   line-height: 20px;
   letter-spacing: 0.06em;
-  color: var(--font-label-color);
+  color: var(--color-250);
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Ads... if still too long */
+  text-overflow: ellipsis;
+  /* Ads... if still too long */
 }
 
 /* ── LOCATION ──
@@ -105,7 +110,8 @@
   position: absolute;
   bottom: calc(clamp(260px, 45vh, 900px) + var(--hero-gap) - 10px);
   right: var(--site-padding);
-  left: calc(50% + clamp(300px, 40vw, 1400px) / 2 + var(--hero-gap)); /* ADD */
+  left: calc(50% + clamp(300px, 40vw, 1400px) / 2 + var(--hero-gap));
+  /* ADD */
   /* max-width:  calc((100vw - clamp(300px, 40vw, 1400px)) / 2 - var(--site-padding)); */
   display: flex;
   flex-direction: column;
@@ -119,7 +125,7 @@
   line-height: 20px;
   letter-spacing: 0.5em;
   word-spacing: 1em;
-  color: var(--color-text-primary);
+  color: var(--color-250);
   text-transform: uppercase;
   text-align: right;
 }
