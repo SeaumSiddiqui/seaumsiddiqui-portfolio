@@ -109,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
 
       // 5. Android / PWA Manifest mapping
-      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "manifest", href: "/site.webmanifest", crossOrigin: "use-credentials" },
 
       // Font and stylesheet links remain below...
       { rel: "preload", href: "/fonts/MagnatText-Bold.woff", as: "font", type: "font/woff", crossOrigin: "anonymous" },
