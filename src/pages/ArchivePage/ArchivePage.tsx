@@ -138,7 +138,13 @@ export default function ArchivePage() {
 
               <div className={styles.imageWrap}>
                 {(project.coverImageLandscape || project.coverImage) ? (
-                  <img src={project.coverImageLandscape || project.coverImage} alt={project.title} className={styles.coverImage} />
+                  <img 
+                    src={`${project.coverImageLandscape || project.coverImage}?auto=format&q=80&w=800`} 
+                    alt={project.title} 
+                    className={styles.coverImage} 
+                    loading="lazy"
+                    decoding="async"
+                  />
                 ) : (
                   <div className={styles.placeholderGrid}></div>
                 )}

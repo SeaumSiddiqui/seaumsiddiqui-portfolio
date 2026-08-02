@@ -172,6 +172,8 @@
     padding: 0;
     width: 100%;
     scrollbar-width: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   body::-webkit-scrollbar {

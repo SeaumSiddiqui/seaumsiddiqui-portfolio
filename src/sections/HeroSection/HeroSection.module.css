@@ -108,7 +108,8 @@
    Top-right, outside parent box, top-aligned with parent box */
 .hero__location {
   position: absolute;
-  bottom: calc(clamp(260px, 45vh, 900px) + var(--hero-gap) - 10px);
+  bottom: calc(clamp(260px, 45vh, 900px) + calc(var(--hero-gap) * 3) + 6px);
+  transform: translateY(100%);
   right: var(--site-padding);
   left: calc(50% + clamp(300px, 40vw, 1400px) / 2 + var(--hero-gap));
   /* ADD */
