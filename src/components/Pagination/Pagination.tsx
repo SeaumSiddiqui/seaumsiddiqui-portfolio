@@ -6,7 +6,7 @@ interface PaginationProps {
   activeIndex: number;
 }
 
-export default function Pagination({ items, activeIndex }: PaginationProps) {
+const Pagination = React.memo(function Pagination({ items, activeIndex }: PaginationProps) {
   const isVisible = activeIndex >= 0 && activeIndex < items.length;
 
   return (
@@ -21,4 +21,6 @@ export default function Pagination({ items, activeIndex }: PaginationProps) {
       </div>
     </div>
   );
-}
+});
+
+export default Pagination;

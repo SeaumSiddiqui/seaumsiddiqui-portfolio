@@ -68,6 +68,7 @@ export default function PortraitCanvas({ src, alt, className, onLoad }: Props) {
     scene.add(mesh);
 
     const loader = new TextureLoader();
+    loader.setCrossOrigin("anonymous");
     let texture: import("three").Texture | null = null;
     loader.load(src, (tex) => {
       tex.colorSpace = SRGBColorSpace;
@@ -99,7 +100,20 @@ export default function PortraitCanvas({ src, alt, className, onLoad }: Props) {
     };
     container.addEventListener("pointermove", onMove);
 
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0 }
+    );
+    observer.observe(container);
+
     const tick = () => {
+      if (!isVisible) return; // Pause rendering if out of viewport
+      
       smooth.x += (mouse.x - smooth.x) * 0.06;
       smooth.y += (mouse.y - smooth.y) * 0.06;
 
@@ -121,6 +135,7 @@ export default function PortraitCanvas({ src, alt, className, onLoad }: Props) {
     gsap.ticker.add(tick);
 
     return () => {
+      observer.disconnect();
       gsap.ticker.remove(tick);
       ro.disconnect();
       container.removeEventListener("pointermove", onMove);

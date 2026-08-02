@@ -6,7 +6,12 @@ export interface SplitSectionHandles {
   rightRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export const SplitSection = forwardRef<SplitSectionHandles, { children: React.ReactNode; isHero?: boolean }>(({ children, isHero }, ref) => {
+interface SplitSectionProps {
+  children: React.ReactNode;
+  isHero?: boolean;
+}
+
+const SplitSection = React.memo(forwardRef<SplitSectionHandles, SplitSectionProps>(({ children, isHero = false }, ref) => {
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +36,8 @@ export const SplitSection = forwardRef<SplitSectionHandles, { children: React.Re
       </div>
     </div>
   );
-});
+}));
+
+export { SplitSection };
 
 SplitSection.displayName = 'SplitSection';

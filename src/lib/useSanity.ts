@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { sanityClient } from "./sanity";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function useSanityQuery<T>(query: string) {
-  const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+export function useSanityQuery<T>(query: string, params: Record<string, any> = {}) {
+  const queryClient = useQueryClient();
+  const queryKey = ["sanity", query, params];
+
+  const queryResult = useQuery({
+    queryKey,
+    queryFn: async () => {
+      return await sanityClient.fetch<T>(query, params);
+    },
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes for instant navigation
+    refetchOnWindowFocus: false, // Prevent unnecessary refetches if data hasn't changed
+  });
 
   useEffect(() => {
-    let subscription: any;
-
-    // Initial fetch
-    sanityClient
-      .fetch<T>(query)
-      .then((initialData) => {
-        setData(initialData);
-        setLoading(false);
-
-        // Listen for updates matching the query
-        subscription = sanityClient
-          .listen(query, {}, { visibility: 'query' })
-          .subscribe(() => {
-            // Re-fetch the query to get the fresh payload when an event fires
-            sanityClient.fetch<T>(query).then(setData).catch(setError);
-          });
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
+    // Listen for updates matching the query for real-time CMS edits
+    const subscription = sanityClient
+      .listen(query, params, { visibility: 'query' })
+      .subscribe(() => {
+        // When an event fires, invalidate the cache to fetch the fresh payload
+        queryClient.invalidateQueries({ queryKey });
       });
 
     return () => {
@@ -34,7 +29,11 @@ export function useSanityQuery<T>(query: string) {
         subscription.unsubscribe();
       }
     };
-  }, [query]);
+  }, [query, JSON.stringify(params), queryClient]); // Use JSON.stringify for deep equality on params object
 
-  return { data, loading, error };
+  return { 
+    data: queryResult.data as T | null, 
+    loading: queryResult.isPending, 
+    error: queryResult.error 
+  };
 }

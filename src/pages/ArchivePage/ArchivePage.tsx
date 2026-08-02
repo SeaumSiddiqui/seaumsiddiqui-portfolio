@@ -15,13 +15,9 @@ export default function ArchivePage() {
   const { data: archivePageData, loading: archivePageLoading, error: archivePageError } = useSanityQuery<ArchivePageData>(ARCHIVE_PAGE_QUERY);
   const [activeProject, setActiveProject] = useState<ProjectData | null>(null);
   const [isListView, setIsListView] = useState(false);
-  const { setReady } = useContext(PageTransitionContext);
 
-  useEffect(() => {
-    if (!projectsLoading && !archivePageLoading) {
-      setReady(true);
-    }
-  }, [projectsLoading, archivePageLoading, setReady]);
+
+
 
   const openProject = (project: ProjectData) => {
     getLenis()?.stop();
@@ -29,7 +25,6 @@ export default function ArchivePage() {
     gsap.to(`.${styles.shaft}`, {
       opacity: 0,
       scale: 0.98,
-      filter: "blur(8px)",
       duration: 0.8,
       ease: "power2.inOut",
       onComplete: () => {
@@ -43,7 +38,6 @@ export default function ArchivePage() {
     gsap.to('#project-overlay-wrapper', {
       opacity: 0,
       scale: 0.98,
-      filter: "blur(8px)",
       duration: 0.8,
       ease: "power2.inOut",
       onComplete: () => {
@@ -52,8 +46,8 @@ export default function ArchivePage() {
         
         // Fade in archive grid
         gsap.fromTo(`.${styles.shaft}`,
-          { opacity: 0, scale: 1.02, filter: "blur(8px)" },
-          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.2, ease: "power2.out", clearProps: "all" }
+          { opacity: 0, scale: 1.02 },
+          { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out", clearProps: "all" }
         );
       }
     });
@@ -63,8 +57,8 @@ export default function ArchivePage() {
   useGSAP(() => {
     if (activeProject) {
       gsap.fromTo('#project-overlay-wrapper',
-        { opacity: 0, scale: 1.02, filter: "blur(8px)" },
-        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.2, ease: "power2.out", clearProps: "all" }
+        { opacity: 0, scale: 1.02 },
+        { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out", clearProps: "all" }
       );
     }
   }, { dependencies: [activeProject] });
@@ -78,13 +72,13 @@ export default function ArchivePage() {
       <div className={styles.shaft}>
         
         <header className={styles.header}>
-          <h1 className={styles.title}>{archivePageData?.pageTitle || 'ARCHIVE'}</h1>
+          <h1 className={styles.title}>{archivePageData?.pageTitle}</h1>
           <div className={styles.headerBottom}>
             <p className={styles.headerDesc}>
-              {archivePageData?.pageDescription || 'A vertical documentation of architectural solutions and high-performance engineering. From API decomposition to resilient persistence layers, these modules define the core of my technical trajectory.'}
+              {archivePageData?.pageDescription}
             </p>
             <div className={styles.controlsGroup}>
-              <span className={styles.headerMeta}>{archivePageData?.pageMeta || '[ ARCHIVE 2024 / 2025 ]'}</span>
+              <span className={styles.headerMeta}>{archivePageData?.pageMeta}</span>
               <div className={styles.toggleGroup}>
                 <button 
                   className={`${styles.toggleBtn} ${!isListView ? styles.active : ''}`}

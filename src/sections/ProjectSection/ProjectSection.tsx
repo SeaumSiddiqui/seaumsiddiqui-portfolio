@@ -1,15 +1,17 @@
-import React from 'react';
-import styles from './ProjectSection.module.css';
+import React, { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import styles from "./ProjectSection.module.css";
+import { urlFor } from "@/lib/sanity";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export interface ProjectSectionData {
   id: string;
   titleText: string;
   descText?: string;
-  bannerImage?: string;
-  collapsibleItems?: {
-    title: string;
-    description: string;
-  }[];
+  bannerImage?: any;
+  collapsibleItems?: { title: string; description: string }[];
 }
 
 export interface ProjectData {
@@ -18,22 +20,24 @@ export interface ProjectData {
   title: string;
   description: string;
   tech: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  imageColor?: string;
-  coverImage?: string;
-  coverImageLandscape?: string;
-  reverse?: boolean;
+  coverImage: any;
+  coverImageLandscape?: any;
   sections: ProjectSectionData[];
+  liveUrl?: string;
+  githubUrl?: string;
+  reverse?: boolean;
+  imageColor?: string;
 }
 
 interface ProjectSectionProps {
   data: ProjectData;
-  onViewProject?: () => void;
+  reverse?: boolean;
+  index?: number;
+  onViewProject: (index: number) => void;
 }
 
-export default function ProjectSection({ data, onViewProject }: ProjectSectionProps) {
-  const isReverse = data.reverse;
+const ProjectSection = React.memo(function ProjectSection({ data, reverse = false, index, onViewProject }: ProjectSectionProps) {
+  const isReverse = reverse || data.reverse;
 
   const renderNarrative = () => (
     <div className={`${styles.narrative} ${isReverse ? styles.rightAlign : ''}`}>
@@ -47,11 +51,11 @@ export default function ProjectSection({ data, onViewProject }: ProjectSectionPr
 
       <div className={styles.middleSection}>
         {(data.liveUrl || data.githubUrl) && (
-          <button onClick={onViewProject} className={styles.visitLink} style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: 0 }}>
+          <button onClick={() => onViewProject(index!)} className={styles.visitLink} style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: 0 }}>
             [ VISIT_PROJECT <span className={styles.arrow}>→</span> ]
           </button>
         )}
-        <h2 className={styles.title} onClick={onViewProject}>{data.title}</h2>
+        <h2 className={styles.title} onClick={() => onViewProject(index!)}>{data.title}</h2>
         <div className={styles.horizontalLine}></div>
         
         <div className={styles.manifestHeader}>[ TECHNICAL_MANIFEST ]</div>
@@ -72,11 +76,11 @@ export default function ProjectSection({ data, onViewProject }: ProjectSectionPr
         <p className={styles.description}>{data.description}</p>
         
         <div className={styles.links}>
-          {(data.githubUrl || data.liveUrl) && (
-            <button onClick={onViewProject} className={styles.actionBtn}>
-              VIEW PROJECT <span className={styles.arrow}>→</span>
-            </button>
-          )}
+            {(data.liveUrl || data.githubUrl) && (
+              <button className={styles.actionBtn} onClick={() => onViewProject(index!)}>
+                [ VIEW_PROJECT <span className={styles.arrow}>→</span> ]
+              </button>
+            )}
         </div>
       </div>
     </div>
@@ -85,7 +89,7 @@ export default function ProjectSection({ data, onViewProject }: ProjectSectionPr
   const renderVisual = () => (
     <div className={styles.visual}>
       <div className={styles.imagePlate} style={data.imageColor ? { backgroundColor: data.imageColor } : {}}>
-        {data.coverImage && <img src={data.coverImage} alt={data.title} className={styles.coverImage} />}
+        {data.coverImage && <img src={`${data.coverImage}?auto=format&q=80`} alt={data.title} className={styles.coverImage} />}
         {!data.coverImage && <span className={styles.imagePlaceholderText}>[ TECHNICAL PLATE: {data.index} ]</span>}
       </div>
     </div>
@@ -103,4 +107,6 @@ export default function ProjectSection({ data, onViewProject }: ProjectSectionPr
       </div>
     </section>
   );
-}
+});
+
+export default ProjectSection;

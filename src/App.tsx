@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, createContext } from "react";
 import { useLenis, getLenis } from "./hooks/useLenis";
-import { useRouterState } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -40,7 +40,8 @@ function LenisProvider({ children }: { children: React.ReactNode }) {
 }
 
 function TransitionRouter() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const location = useLocation();
+  const pathname = location.pathname;
   const [displayPathname, setDisplayPathname] = useState(pathname);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [pageReady, setPageReady] = useState(true);
@@ -53,7 +54,6 @@ function TransitionRouter() {
       gsap.to(wrapperRef.current, {
         opacity: 0,
         scale: 0.98,
-        filter: "blur(8px)",
         duration: 0.8,
         ease: "power2.inOut",
         onComplete: () => {
@@ -65,6 +65,11 @@ function TransitionRouter() {
             lenis.stop(); // Stop again to prevent scrolling during fade-in
           }
 
+          // Hide the wrapper completely to prevent CLS when scroll snaps back
+          if (wrapperRef.current) {
+            wrapperRef.current.style.visibility = "hidden";
+          }
+
           // Force native scroll position instantly so ScrollTrigger reads 0 on mount
           window.scrollTo(0, 0);
           document.documentElement.scrollTop = 0;
@@ -73,20 +78,28 @@ function TransitionRouter() {
           setTimeout(() => {
             setPageReady(false); // Reset ready state for the new page
             setDisplayPathname(pathname);
+            
+            // Automatically set the new page to ready after a short delay to allow it to render
+            setTimeout(() => {
+              setPageReady(true);
+            }, 20);
           }, 10);
         }
       });
     } else if (pathname === displayPathname && isTransitioning && pageReady) {
+      if (wrapperRef.current) {
+        wrapperRef.current.style.visibility = "visible";
+      }
+      
       gsap.fromTo(wrapperRef.current,
-        { opacity: 0, y: 80, scale: 0.98, filter: "blur(8px)" },
+        { opacity: 0, y: 80, scale: 0.98 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          filter: "blur(0px)",
           duration: 1.2,
           ease: "power3.out",
-          clearProps: "opacity,transform,filter",
+          clearProps: "opacity,transform,visibility",
           onComplete: () => {
             setIsTransitioning(false);
             getLenis()?.start(); // Unlock scroll when new page is ready
@@ -97,13 +110,7 @@ function TransitionRouter() {
     }
   }, { dependencies: [pathname, displayPathname, isTransitioning, pageReady], scope: wrapperRef });
 
-  // Failsafe: if a page doesn't use the context, assume it's ready after a short delay
-  useEffect(() => {
-    if (!pageReady) {
-      const timer = setTimeout(() => setPageReady(true), 1500); // Max wait time 1.5s
-      return () => clearTimeout(timer);
-    }
-  }, [pageReady]);
+
 
   let PageComponent: React.ComponentType<any> = HomePage;
   if (displayPathname.startsWith("/about")) PageComponent = AboutPage;
@@ -121,8 +128,9 @@ function TransitionRouter() {
 
 export default function App() {
   useEffect(() => {
-    const disable = enableVisualEditing();
-    return () => disable();
+    // Disabled to prevent infinite loops with GSAP MutationObserver
+    // const disable = enableVisualEditing();
+    // return () => disable();
   }, []);
 
   return (

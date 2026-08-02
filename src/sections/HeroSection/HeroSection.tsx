@@ -1,5 +1,4 @@
-import { useRef, useEffect, useState } from "react";
-import portraitImg from "@/assets/portrait.png";
+import React, { useRef, useLayoutEffect } from "react";
 import PortraitCanvas from "./PortraitCanvas";
 import { urlFor } from "@/lib/sanity";
 import styles from "./HeroSection.module.css";
@@ -11,8 +10,6 @@ export interface HeroData {
   portrait: any;
 }
 
-const FALLBACK_ROLES = ["BACKEND ENGINEER", "JAVA, SPRING BOOT", "MICROSERVICES ARCHITECT"];
-const FALLBACK_LOCATION = "Dhaka, Bangladesh";
 
 function formatLocation(loc: string) {
   const parts = loc.split(",").map((s) => s.trim());
@@ -24,24 +21,42 @@ function formatLocation(loc: string) {
   };
 }
 
-export default function HeroSection({ data }: { data?: HeroData | null }) {
+const HeroSection = React.memo(function HeroSection({ data }: { data?: HeroData | null }) {
   const roleRef           = useRef<HTMLDivElement>(null);
 
-  const roles          = data?.roles    ?? FALLBACK_ROLES;
-  const location       = data?.location ?? FALLBACK_LOCATION;
+  const roles          = data?.roles    ?? [];
+  const location       = data?.location ?? "";
   const loc            = formatLocation(location);
   const primaryRole    = roles[0] ?? "";
   const secondaryRoles = roles.slice(1);
 
   const portraitSrc = data?.portrait
-    ? urlFor(data.portrait).width(840).url()
-    : portraitImg;
+    ? urlFor(data.portrait).width(840).auto("format").quality(80).url()
+    : null;
 
-  useEffect(() => {
+  // Preload the optimized portrait image to prevent canvas rendering delays
+  useLayoutEffect(() => {
+    if (!portraitSrc) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = portraitSrc;
+    link.crossOrigin = "anonymous";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [portraitSrc]);
+
+  useLayoutEffect(() => {
     const el = roleRef.current;
     if (!el || !primaryRole) return;
 
     const fit = () => {
+      // Temporarily reset styles to measure accurately
+      el.style.transform = "none";
+      el.style.width = "";
+      
       // 1. Measure the container's layout-defined width first
       const available = el.getBoundingClientRect().width;
       
@@ -50,20 +65,26 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       el.style.width     = "max-content";
       const naturalWidth = el.getBoundingClientRect().width; // Subpixel precision!
       
-      // 3. Restore and scale font size to stretch perfectly
-      el.style.width     = "";
-      el.style.fontSize  = `${(available / naturalWidth) * 100}px`;
-      el.style.opacity   = "1";
+      // 3. Scale using transform to avoid layout shifts (CLS)
+      el.style.width = "";
+      el.style.fontSize = "100px";
+      
+      const scale = available / naturalWidth;
+      el.style.transformOrigin = "left bottom";
+      el.style.transform = `scale(${scale})`;
     };
 
-    const rafId = requestAnimationFrame(fit);
+    // Run fit initially to set transform, but keep opacity 0
+    fit();
     window.addEventListener("resize", fit);
     
-    // Recalculate once custom fonts load to prevent fallback font width mismatch
-    document.fonts.ready.then(fit);
+    // Observe font loading before showing text
+    document.fonts.ready.then(() => {
+      fit(); // recalculate with correct font metrics
+      if (el) el.style.opacity = "1";
+    });
 
     return () => {
-      cancelAnimationFrame(rafId);
       window.removeEventListener("resize", fit);
     };
   }, [primaryRole]);
@@ -74,9 +95,9 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       data-section="hero"
     >
 
-      <div ref={roleRef} className={styles.hero__primaryRole}>
+      <h1 className={styles.hero__primaryRole} ref={roleRef}>
         {primaryRole}
-      </div>
+      </h1>
 
       <div className={styles.hero__location}>
         <span className={styles.hero__locationLabel}>
@@ -95,10 +116,14 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             ))}
           </div>
           <div className={styles.hero__portrait}>
-            <PortraitCanvas src={portraitSrc} />
+            {portraitSrc && (
+              <PortraitCanvas src={portraitSrc} alt="Portrait of Seaum Siddiqui - Backend Engineer" className={styles.canvas} />
+            )}
           </div>
         </div>
       </div>
     </section>
   );
-}
+});
+
+export default HeroSection;

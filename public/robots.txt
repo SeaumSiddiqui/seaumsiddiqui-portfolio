@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://seaumsiddiqui.vercel.app/sitemap.xml

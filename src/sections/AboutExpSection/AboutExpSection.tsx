@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import styles from './AboutExpSection.module.css';
 
 export interface ExperienceData {
@@ -24,8 +24,14 @@ export interface ExpertiseData {
   certifications?: ExpertiseCategory[];
 }
 
-export default function AboutExpSection({ data, expertise }: { data: ExperienceData, expertise?: ExpertiseData }) {
-  const isReverse = data.reverse;
+interface AboutExpSectionProps {
+  data: ExperienceData;
+  expertise?: ExpertiseData;
+  reverse?: boolean;
+}
+
+const AboutExpSection = React.memo(function AboutExpSection({ data, expertise, reverse = false }: AboutExpSectionProps) {
+  const isReverse = reverse || data.reverse;
   const [openSection, setOpenSection] = React.useState<'skills' | 'certs' | null>(null);
 
   const toggleSection = (sec: 'skills' | 'certs') => {
@@ -136,4 +142,6 @@ export default function AboutExpSection({ data, expertise }: { data: ExperienceD
       </div>
     </section>
   );
-}
+});
+
+export default AboutExpSection;

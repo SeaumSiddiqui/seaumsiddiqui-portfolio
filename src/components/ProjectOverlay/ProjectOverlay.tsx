@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import styles from "./ProjectOverlay.module.css";
 import { ProjectData, ProjectSectionData } from "@/sections/ProjectSection";
 
@@ -8,16 +10,81 @@ interface ProjectOverlayProps {
   onClose: () => void;
 }
 
-export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
+const ProjectOverlay = React.memo(function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const wrapperRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Default to the first section (Narrative)
   const [activeSectionId, setActiveSectionId] = useState(project.sections[0]?.id);
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  const activeIndex = project.sections.findIndex(s => s.id === activeSectionId);
+  const activeSection = activeIndex !== -1 ? project.sections[activeIndex] : project.sections[0];
+  const prevSection = activeIndex > 0 ? project.sections[activeIndex - 1] : null;
+  const nextSection = activeIndex !== -1 && activeIndex < project.sections.length - 1 ? project.sections[activeIndex + 1] : null;
+
+  useGSAP(() => {
+    // Fade in the section contents
+    gsap.fromTo([`.${styles.activeLeft} > *`, `.${styles.activeRight} > *`],
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.02, ease: "power2.out", clearProps: "all" }
+    );
+
+    // Fade in the grid cards (without y shift)
+    gsap.fromTo(`.${styles.inactiveCard}`, 
+      { opacity: 0 },
+      { 
+        opacity: 1, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out", 
+        clearProps: "all",
+        onComplete: () => setIsAnimating(false)
+      }
+    );
+  }, { dependencies: [activeSectionId], scope: wrapperRef });
+
+  const handleSectionClick = (id: string) => {
+    if (isAnimating || id === activeSectionId) return;
+    setIsAnimating(true);
+    
+    // Fade out grid cards (without y shift)
+    gsap.to(`.${styles.inactiveCard}`, {
+      opacity: 0,
+      duration: 0.3,
+      stagger: 0.05,
+      ease: "power2.inOut",
+    });
+
+    // Fade out section contents
+    gsap.to([`.${styles.activeLeft} > *`, `.${styles.activeRight} > *`], {
+      opacity: 0,
+      y: -10,
+      duration: 0.3,
+      stagger: 0.02,
+      ease: "power2.inOut",
+      onComplete: () => {
+        setActiveSectionId(id);
+      }
+    });
+  };
+
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = `${project.title} | Seaum Siddiqui`;
+
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [project.title]);
 
   useEffect(() => {
     let accumulatedPull = 0;
     
+    // Prevent global native scrolling from bubbling underneath
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     // Initialize Local Lenis for the overlay
     const lenis = new Lenis({
       wrapper: wrapperRef.current || undefined,
@@ -26,11 +93,12 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
       smoothWheel: true,
     });
 
+    let rafId: number;
     const raf = (time: number) => {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     };
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     const handleWheel = (e: WheelEvent) => {
       const wrapper = wrapperRef.current;
@@ -62,16 +130,15 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
     }
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
       resizeObserver.disconnect();
+      document.body.style.overflow = originalOverflow;
       if (wrapper) {
         wrapper.removeEventListener('wheel', handleWheel);
       }
     };
   }, [onClose]);
-
-  const activeSection = project.sections.find(s => s.id === activeSectionId) || project.sections[0];
-  const inactiveSections = project.sections.filter(s => s.id !== activeSectionId);
 
   return (
     <main className={styles.overlay} ref={wrapperRef}>
@@ -123,11 +190,29 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
                   ))}
                 </div>
               )}
+
+              <div className={styles.sectionNav}>
+                <button 
+                  onClick={() => prevSection && handleSectionClick(prevSection.id)} 
+                  className={`${styles.navButton} ${!prevSection ? styles.navButtonDisabled : ''}`}
+                  disabled={!prevSection}
+                >
+                  <span className={styles.navText}>{prevSection ? `Prev: ${prevSection.titleText}` : 'Prev'}</span>
+                </button>
+                
+                <button 
+                  onClick={() => nextSection && handleSectionClick(nextSection.id)} 
+                  className={`${styles.navButton} ${!nextSection ? styles.navButtonDisabled : ''}`}
+                  disabled={!nextSection}
+                >
+                  <span className={styles.navText}>{nextSection ? `Next: ${nextSection.titleText}` : 'Next'}</span>
+                </button>
+              </div>
             </div>
 
             <div className={styles.activeRight}>
               {activeSection.bannerImage ? (
-                <img src={activeSection.bannerImage} alt={activeSection.titleText} className={styles.bannerImage} />
+                <img src={`${activeSection.bannerImage}?auto=format&q=80`} alt={activeSection.titleText} className={styles.bannerImage} />
               ) : (
                 <div className={styles.bannerPlaceholder}>[ IMAGE MISING ]</div>
               )}
@@ -135,8 +220,8 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
           </section>
         )}
 
-        {/* Inactive Sections Grid */}
-        {inactiveSections.length > 0 && (
+        {/* Sections Grid */}
+        {project.sections.length > 0 && (
           <section className={styles.inactiveSections}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionHeader__title}>EXPLORE MORE</span>
@@ -144,20 +229,27 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
             <hr className={styles.separator} />
             
             <div className={styles.grid}>
-              {inactiveSections.map(sec => (
-                <div key={sec.id} className={styles.inactiveCard} onClick={() => setActiveSectionId(sec.id)}>
-                  {sec.bannerImage ? (
-                    <img src={sec.bannerImage} alt={sec.titleText} className={styles.cardImage} />
-                  ) : (
-                    <div className={styles.cardPlaceholder}></div>
-                  )}
-                  <div className={styles.cardOverlay}>
-                    <h3 className={styles.cardTitle}>{sec.titleText}</h3>
+              {[activeSection, ...project.sections.filter(s => s.id !== activeSection.id)].map(sec => {
+                const isActive = sec.id === activeSection.id;
+                return (
+                  <div 
+                    key={sec.id} 
+                    className={`${styles.inactiveCard} ${isActive ? styles.activeCardNode : ''}`} 
+                    onClick={() => handleSectionClick(sec.id)}
+                  >
+                    {sec.bannerImage ? (
+                      <img src={`${sec.bannerImage}?auto=format&q=80`} alt={sec.titleText} className={styles.cardImage} />
+                    ) : (
+                      <div className={styles.cardPlaceholder}></div>
+                    )}
+                    <div className={styles.cardOverlay}>
+                      <h3 className={styles.cardTitle}>{sec.titleText}</h3>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               {/* Pad the remaining columns up to 4 with empty cells */}
-              {Array.from({ length: Math.max(0, 4 - inactiveSections.length) }).map((_, i) => (
+              {Array.from({ length: Math.max(0, 4 - project.sections.length) }).map((_, i) => (
                 <div key={`empty-${i}`} className={styles.emptyCard}></div>
               ))}
             </div>
@@ -167,4 +259,6 @@ export default function ProjectOverlay({ project, onClose }: ProjectOverlayProps
       </div>
     </main>
   );
-}
+});
+
+export default ProjectOverlay;

@@ -279,6 +279,53 @@
 }
 
 /* Accordion */
+.sectionNav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto; /* Push to the bottom */
+  padding-top: 40px;
+  width: 100%;
+}
+
+.navButton {
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.navButton:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.navButtonDisabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navIcon {
+  font-size: 16px;
+  color: var(--color-400);
+}
+
+.navText {
+  display: inline-block;
+}
+
+/* Accordion */
 .accordionContainer {
   margin-top: 32px;
   display: flex;
@@ -331,7 +378,7 @@
 
 /* Right Side Banner */
 .activeRight {
-  flex: 1;
+  flex: 0 1 450px;
   display: flex;
   justify-content: flex-end;
   background-color: var(--color-border);
@@ -383,9 +430,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
-  background-color: var(--color-border);
-  border: 1px solid var(--color-border);
-  margin-top: -1px;
+  background-color: var(--color-bg);
 }
 
 .inactiveCard {
@@ -397,20 +442,41 @@
   transition: opacity 0.3s ease;
 }
 
-.inactiveCard:hover {
+.inactiveCard:not(.activeCardNode):hover {
   opacity: 0.8;
+}
+
+.activeCardNode {
+  border-bottom: 2px solid var(--color-400);
+  cursor: default;
 }
 
 .cardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inactiveCard:not(.activeCardNode):hover .cardImage {
+  transform: scale(1.08);
+}
+
+.activeCardNode .cardImage {
+  opacity: 1;
 }
 
 .cardPlaceholder {
   width: 100%;
   height: 100%;
   background-color: #111;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.activeCardNode .cardPlaceholder {
+  opacity: 1;
 }
 
 .cardOverlay {
@@ -427,7 +493,12 @@
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: #fff;
+  color: var(--color-300);
+  transition: color 0.3s ease;
+}
+
+.activeCardNode .cardTitle {
+  color: var(--color-500);
 }
 
 .emptyCard {

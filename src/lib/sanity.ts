@@ -15,12 +15,12 @@ export const sanityClient = createClient({
   projectId,
   dataset,
   apiVersion: "2024-01-01",
-  useCdn: false,
-  token,
-  perspective: "drafts",
+  useCdn: import.meta.env.PROD, // Use Edge CDN in production
+  token: import.meta.env.PROD ? undefined : token, // Only use token in development
+  perspective: import.meta.env.PROD ? "published" : "drafts", // Fetch published in PROD
   ignoreBrowserTokenWarning: true,
   stega: {
-    enabled: true,
+    enabled: import.meta.env.DEV, // Only enable Stega in development
     studioUrl: 'http://localhost:3333',
   },
 });

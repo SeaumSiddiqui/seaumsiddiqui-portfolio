@@ -201,7 +201,7 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
           <div className={styles.imageBlock}>
             <div className={styles.imageOverlay}></div>
             <img 
-              src={data?.bottomImage || "https://lh3.googleusercontent.com/aida-public/AB6AXuDURdIX4bEQZPDxleruVlqB-shD4Y4qmPYA12ogmPJsMtgqA7McbXyYqNFq3gQT2bDDRuc-BFWsTkmcnqlpxmH_ETbreZQYRM6AyauQrNhJKZMQZp31v-lPHwxI6hf3VmIkvQ0Y_PmFsBCkuvbklp4qiW8kquSffVG2LLiQYCOGbakngr71-WGcatbeMt71D_oH_sR4q2GiyZhSeWVYK3WSXbC3xEc5iuLcEsU-che0uwVis-Lagx0Jk6_0yge7Y7xhmi-j25NJB6t7"} 
+              src={data?.bottomImage ? `${data.bottomImage}?auto=format&q=80` : "https://lh3.googleusercontent.com/aida-public/AB6AXuDURdIX4bEQZPDxleruVlqB-shD4Y4qmPYA12ogmPJsMtgqA7McbXyYqNFq3gQT2bDDRuc-BFWsTkmcnqlpxmH_ETbreZQYRM6AyauQrNhJKZMQZp31v-lPHwxI6hf3VmIkvQ0Y_PmFsBCkuvbklp4qiW8kquSffVG2LLiQYCOGbakngr71-WGcatbeMt71D_oH_sR4q2GiyZhSeWVYK3WSXbC3xEc5iuLcEsU-che0uwVis-Lagx0Jk6_0yge7Y7xhmi-j25NJB6t7"} 
               alt="Architectural technical aesthetic" 
               className={styles.bottomImage} 
             />

@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px var(--site-padding);
+  mix-blend-mode: difference;
 }
 
 .topRow, .bottomRow {
@@ -23,7 +24,6 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #fff; /* Use pure white for mix-blend-mode to calculate the exact inverse */
-  mix-blend-mode: difference;
   text-decoration: none;
   background: transparent;
   border: none;

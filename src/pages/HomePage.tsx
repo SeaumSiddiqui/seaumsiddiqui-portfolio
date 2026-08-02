@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, useState, useContext, useCallback } from "react";
+import React, { useRef, useEffect, useLayoutEffect, useState, useContext, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -28,7 +28,7 @@ export interface ClosingData {
 }
 
 export default function HomePage() {
-  const { setReady, isTransitioning } = useContext(PageTransitionContext);
+  const { isTransitioning } = useContext(PageTransitionContext);
   const { data: heroData, loading: heroLoading } = useSanityQuery<HeroData>(HERO_QUERY);
   const { data: experiencesData, loading: experiencesLoading } = useSanityQuery<ExperienceData[]>(EXPERIENCES_QUERY);
   const { data: expertiseData } = useSanityQuery<any>(EXPERTISE_QUERY);
@@ -37,17 +37,11 @@ export default function HomePage() {
 
   const loading = heroLoading || experiencesLoading || projectsLoading || closingLoading;
 
+
+
   const experiences = experiencesData || [];
   const projects = projectsData || [];
-  const closingData = closingDataRaw || {
-    buildText: "Let's build together.",
-    email: "seaumsiddiqui@outlook.com",
-    githubUrl: "#",
-    linkedinUrl: "#",
-    twitterUrl: "#",
-    leetcodeUrl: "#",
-    footerText: "© 2026"
-  };
+  const closingData = closingDataRaw;
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -61,8 +55,12 @@ export default function HomePage() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeProjectIndex, setActiveProjectIndex] = useState<number | null>(null);
+  const activeIndexRef = useRef(0); // Add ref to track index synchronously without triggering renders
 
-  const openProject = (index: number) => {
+  const experiencePaginationItems = React.useMemo(() => experiences.map(e => e.index), [experiences]);
+  const projectPaginationItems = React.useMemo(() => projects.map(p => p.index), [projects]);
+
+  const openProject = useCallback((index: number) => {
     getLenis()?.stop();
     setActiveProjectIndex(index);
 
@@ -71,9 +69,9 @@ export default function HomePage() {
       gsap.to(refs.leftRef.current, { xPercent: -100, duration: 1.6, ease: "power3.inOut" });
       gsap.to(refs.rightRef.current, { xPercent: 100, duration: 1.6, ease: "power3.inOut" });
     }
-  };
+  }, []);
 
-  const closeProject = () => {
+  const closeProject = useCallback(() => {
     if (activeProjectIndex === null) return;
     const refs = splitRefs.current[activeProjectIndex];
     if (refs?.leftRef.current && refs?.rightRef.current) {
@@ -88,7 +86,7 @@ export default function HomePage() {
         }
       });
     }
-  };
+  }, [activeProjectIndex]);
 
   useEffect(() => {
     const handleCloseOverlay = () => {
@@ -147,7 +145,13 @@ export default function HomePage() {
             const progress = self.progress;
             let newIndex = Math.round(progress * sectionsCount);
             if (newIndex > sectionsCount) newIndex = sectionsCount;
-            setActiveIndex(newIndex);
+            // Prevent synchronous setState loops during ScrollTrigger refresh
+            if (newIndex !== activeIndexRef.current) {
+              activeIndexRef.current = newIndex;
+              requestAnimationFrame(() => {
+                setActiveIndex(newIndex);
+              });
+            }
           }
         }
       });
@@ -217,7 +221,11 @@ export default function HomePage() {
           return (
             <div key={exp.id || i} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: layerIndex + 1, pointerEvents: activeProjectIndex !== null ? 'none' : (activeIndex === layerIndex ? 'auto' : 'none') }}>
               <SplitSection ref={setRef(layerIndex)}>
-                <AboutExpSection data={{ ...exp, reverse: i % 2 !== 0 }} expertise={expertiseData} />
+                <AboutExpSection 
+                  data={exp} 
+                  reverse={i % 2 !== 0} 
+                  expertise={expertiseData} 
+                />
               </SplitSection>
             </div>
           );
@@ -229,7 +237,12 @@ export default function HomePage() {
           return (
             <div key={proj.id} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: activeProjectIndex === layerIndex ? 101 : layerIndex + 1, pointerEvents: activeProjectIndex !== null ? 'none' : (activeIndex === layerIndex ? 'auto' : 'none') }}>
               <SplitSection ref={setRef(layerIndex)}>
-                <ProjectSection data={{ ...proj, reverse: (experiences.length + i) % 2 !== 0 }} onViewProject={() => openProject(layerIndex)} />
+                <ProjectSection 
+                  data={proj} 
+                  reverse={(experiences.length + i) % 2 !== 0} 
+                  onViewProject={openProject} 
+                  index={layerIndex} 
+                />
               </SplitSection>
             </div>
           );
@@ -248,7 +261,7 @@ export default function HomePage() {
         {/* Pagination overlay over all sections (Only for Experience Sections) */}
         {experiences.length > 0 && (
           <Pagination
-            items={experiences.map(e => e.index)}
+            items={experiencePaginationItems}
             activeIndex={activeIndex - 1}
           />
         )}
@@ -256,53 +269,61 @@ export default function HomePage() {
         {/* Pagination overlay for Projects Sections */}
         {projects.length > 0 && (
           <Pagination
-            items={projects.map(p => p.index)}
+            items={projectPaginationItems}
             activeIndex={activeIndex - (1 + experiences.length)}
           />
         )}
 
         {/* Closing box overlay — 4 panels that close in (z-index highest so it animates over previous) */}
-        <div className={closingStyles.overlay} style={{ zIndex: 1000 }}>
+        <div 
+          className={closingStyles.overlay} 
+          style={{ 
+            zIndex: 1000,
+            opacity: activeProjectIndex !== null ? 0 : 1,
+            visibility: activeProjectIndex !== null ? 'hidden' : 'visible',
+            transition: 'opacity 0.3s ease, visibility 0.3s ease'
+          }}
+        >
           <div ref={panelLeftRef} className={closingStyles.panelLeft}>
             <div className={closingStyles.viewportMaskLeft}>
-              <span className={closingStyles.buildText}>{closingData.buildText}</span>
+              <span className={closingStyles.buildText}>{closingData?.buildText}</span>
               <div className={closingStyles.connectCluster}>
                 <span className={closingStyles.connectText}>
                   <span>CO</span>
                   <span className={closingStyles.dimStroke}>NN</span>
                   <span>ECT</span>
                 </span>
-                <a href={closingData.githubUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialGithub}`}>GitHub</a>
-                <a href={closingData.linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLinkedin}`}>LinkedIn</a>
-                <a href={closingData.twitterUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialTwitter}`}>X (Twitter)</a>
-                <a href={closingData.leetcodeUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLeetcode}`}>LeetCode</a>
+                <a href={closingData?.githubUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialGithub}`}>GitHub</a>
+                <a href={closingData?.linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLinkedin}`}>LinkedIn</a>
+                <a href={closingData?.twitterUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialTwitter}`}>X (Twitter)</a>
+                <a href={closingData?.leetcodeUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLeetcode}`}>LeetCode</a>
               </div>
-              <a href={`mailto:${closingData.email}`} className={closingStyles.emailBlock}>
+              <a href={`mailto:${closingData?.email}`} className={closingStyles.emailBlock}>
                 <span className={closingStyles.emailLabel}>Email: </span>
-                <span className={closingStyles.emailValue}>{closingData.email}</span>
+                <span className={closingStyles.emailValue}>{closingData?.email}</span>
               </a>
-              <span className={closingStyles.footerText}>{closingData.footerText}</span>
+              <span className={closingStyles.footerText}>{closingData?.footerText}</span>
             </div>
           </div>
           <div ref={panelRightRef} className={closingStyles.panelRight}>
             <div className={closingStyles.viewportMaskRight}>
-              <span className={closingStyles.buildText}>{closingData.buildText}</span>
+              <span className={closingStyles.buildText}>{closingData?.buildText}</span>
               <div className={closingStyles.connectCluster}>
                 <span className={closingStyles.connectText}>
                   <span>CO</span>
                   <span className={closingStyles.dimStroke}>NN</span>
                   <span>ECT</span>
                 </span>
-                <a href={closingData.githubUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialGithub}`}>GitHub</a>
-                <a href={closingData.linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLinkedin}`}>LinkedIn</a>
-                <a href={closingData.twitterUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialTwitter}`}>X (Twitter)</a>
-                <a href={closingData.leetcodeUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLeetcode}`}>LeetCode</a>
+                <a href={closingData?.githubUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialGithub}`}>GitHub</a>
+                <a href={closingData?.linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLinkedin}`}>LinkedIn</a>
+                <a href={closingData?.twitterUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialTwitter}`}>X (Twitter)</a>
+                <a href={closingData?.leetcodeUrl} target="_blank" rel="noopener noreferrer" className={`${closingStyles.socialLink} ${closingStyles.socialLeetcode}`}>LeetCode</a>
               </div>
-              <a href={`mailto:${closingData.email}`} className={closingStyles.emailBlock}>
+              <a href={`mailto:${closingData?.email}`} className={closingStyles.emailBlock}>
                 <span className={closingStyles.emailLabel}>Email: </span>
-                <span className={closingStyles.emailValue}>{closingData.email}</span>
+                <span className={closingStyles.emailValue}>{closingData?.email}</span>
               </a>
-              <span className={closingStyles.footerText}>{closingData.footerText}</span>
+              <span className={closingStyles.footerText}>{closingData?.footerText}</span>
             </div>
           </div>
           <div ref={panelTopRef} className={closingStyles.panelTop} />
