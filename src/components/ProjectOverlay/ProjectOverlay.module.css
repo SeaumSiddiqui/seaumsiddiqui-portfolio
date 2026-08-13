@@ -103,10 +103,18 @@
   background: var(--color-border);
 }
 
-.bannerMedia, .dynamicMedia {
+.bannerMedia {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.dynamicMedia {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   position: absolute;
   inset: 0;
 }
@@ -346,6 +354,17 @@
   line-height: 1.8;
   color: var(--color-text-secondary);
   margin-bottom: 24px;
+}
+.richUl, .richOl {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin-bottom: 24px;
+  padding-left: 20px;
+}
+.richLi {
+  margin-bottom: 8px;
 }
 .richQuote {
   border-left: 2px solid var(--color-theme, #e91e63);

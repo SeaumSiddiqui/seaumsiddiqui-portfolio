@@ -239,6 +239,14 @@ const portableTextComponents = {
     normal: ({children}: any) => <p className={styles.richP}>{children}</p>,
     blockquote: ({children}: any) => <blockquote className={styles.richQuote}>{children}</blockquote>,
   },
+  list: {
+    bullet: ({children}: any) => <ul className={styles.richUl}>{children}</ul>,
+    number: ({children}: any) => <ol className={styles.richOl}>{children}</ol>,
+  },
+  listItem: {
+    bullet: ({children}: any) => <li className={styles.richLi}>{children}</li>,
+    number: ({children}: any) => <li className={styles.richLi}>{children}</li>,
+  },
   marks: {
     textColor: ({children, value}: any) => <span style={{ color: value?.color?.hex || value?.color || 'inherit' }}>{children}</span>,
     themeColor: ({children}: any) => <span style={{ color: 'var(--color-theme, #e91e63)' }}>{children}</span>,
