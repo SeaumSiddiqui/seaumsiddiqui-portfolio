@@ -6,8 +6,12 @@ import MenuOverlay from '../MenuOverlay/MenuOverlay';
 export default function GlobalNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleHomeClick = () => {
+  const handleHomeClick = (e: React.MouseEvent) => {
     window.dispatchEvent(new CustomEvent('closeProjectOverlay'));
+    if (window.location.pathname === '/archive') {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('closeWorkGate'));
+    }
   };
 
   return (
@@ -15,7 +19,15 @@ export default function GlobalNav() {
       <nav className={styles.globalNav}>
         <div className={styles.topRow}>
           <Link to="/" className={styles.navItem} onClick={handleHomeClick}>SEAUM SIDDIQUI</Link>
-          <Link to={"/archive" as any} className={`${styles.navItem} ${styles.centerItem}`}>WORK</Link>
+          <a href="/archive" onClick={(e) => {
+            if (window.location.pathname === '/') {
+              e.preventDefault();
+              window.dispatchEvent(new CustomEvent('navigateWorkGate'));
+            } else if (window.location.pathname === '/archive') {
+              e.preventDefault();
+              window.dispatchEvent(new CustomEvent('closeProjectOverlay'));
+            }
+          }} className={`${styles.navItem} ${styles.centerItem}`}>WORK</a>
           <button className={styles.navItem} onClick={() => setIsMenuOpen(true)}>MENU</button>
         </div>
 

@@ -32,20 +32,34 @@ export const PROJECTS_QUERY = `
     "id": _id,
     index,
     title,
-    description,
+    heading,
     tech,
     githubUrl,
     liveUrl,
-    imageColor,
-    "coverImage": coverImage.asset->url,
-    "coverImageLandscape": coverImageLandscape.asset->url,
-    sections[] {
+    "globalColor": globalColor.hex,
+
+    "logo": logo.asset->url,
+    "bannerImage": bannerImage.asset->url,
+    "bannerVideo": bannerVideo.asset->url,
+    architecture,
+    role,
+    coreIntegration,
+    keyAchievement,
+    deployment,
+    overview,
+    dynamicSections[] {
       "id": _key,
-      titleText,
-      descText,
-      "bannerImage": bannerImage.asset->url,
-      collapsibleItems
-    }
+      mediaType,
+      "mediaImage": mediaImage.asset->url,
+      "mediaVideo": mediaVideo.asset->url,
+      content
+    },
+    metrics[] {
+      "id": _key,
+      value,
+      label
+    },
+    summary
   }
 `;
 
@@ -54,20 +68,34 @@ export const ALL_PROJECTS_QUERY = `
     "id": _id,
     index,
     title,
-    description,
+    heading,
     tech,
     githubUrl,
     liveUrl,
-    imageColor,
-    "coverImage": coverImage.asset->url,
-    "coverImageLandscape": coverImageLandscape.asset->url,
-    sections[] {
+    "globalColor": globalColor.hex,
+
+    "logo": logo.asset->url,
+    "bannerImage": bannerImage.asset->url,
+    "bannerVideo": bannerVideo.asset->url,
+    architecture,
+    role,
+    coreIntegration,
+    keyAchievement,
+    deployment,
+    overview,
+    dynamicSections[] {
       "id": _key,
-      titleText,
-      descText,
-      "bannerImage": bannerImage.asset->url,
-      collapsibleItems
-    }
+      mediaType,
+      "mediaImage": mediaImage.asset->url,
+      "mediaVideo": mediaVideo.asset->url,
+      content
+    },
+    metrics[] {
+      "id": _key,
+      value,
+      label
+    },
+    summary
   }
 `;
 

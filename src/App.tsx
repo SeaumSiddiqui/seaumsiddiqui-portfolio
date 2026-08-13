@@ -49,6 +49,12 @@ function TransitionRouter() {
 
   useGSAP(() => {
     if (pathname !== displayPathname && !isTransitioning) {
+      // Skip transition entirely for Home <-> Archive, let HomePage handle the gate animation
+      if ((pathname === '/archive' && displayPathname === '/') || (pathname === '/' && displayPathname === '/archive')) {
+        setDisplayPathname(pathname);
+        return;
+      }
+      
       setIsTransitioning(true);
       getLenis()?.stop(); // Lock scroll during transition
       gsap.to(wrapperRef.current, {
@@ -115,7 +121,7 @@ function TransitionRouter() {
   let PageComponent: React.ComponentType<any> = HomePage;
   if (displayPathname.startsWith("/about")) PageComponent = AboutPage;
   else if (displayPathname.startsWith("/contact")) PageComponent = ContactPage;
-  else if (displayPathname.startsWith("/archive")) PageComponent = ArchivePage;
+  // Archive is handled entirely inside HomePage now via the WorkGate
 
   return (
     <PageTransitionContext.Provider value={{ setReady: setPageReady, isTransitioning }}>

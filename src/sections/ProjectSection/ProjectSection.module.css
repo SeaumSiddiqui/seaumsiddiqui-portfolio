@@ -86,24 +86,15 @@
 .middleSection {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.visitLink {
-  font-family: var(--font-label);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  display: inline-block;
+.projectLogo {
+  max-width: 400px;
+  max-height: 160px;
+  object-fit: contain;
   margin-bottom: 16px;
-  transition: color 0.2s ease;
-  align-self: flex-start;
-  text-align: left;
-}
-
-.visitLink:hover {
-  color: var(--color-text-primary);
 }
 
 .title {
@@ -113,10 +104,11 @@
   line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
-  margin: 0 0 40px 0;
+  margin: 0 0 16px 0;
   text-transform: uppercase;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease, text-shadow 0.4s ease;
-  transform-origin: left center;
+  transform-origin: center center;
+  text-align: center;
   cursor: pointer;
   display: inline-block;
   max-width: 100%;
@@ -132,26 +124,28 @@
   text-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
 }
 
-.horizontalLine {
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-border);
-  margin-bottom: 24px;
+.heading {
+  font-family: var(--font-family);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 90%;
+  margin: 0 0 32px 0;
+  letter-spacing: normal;
 }
 
-.manifestHeader {
-  font-family: var(--font-label);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-  margin-bottom: 24px;
-}
+
+
+
 
 .techGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px 24px;
-  margin-bottom: 64px;
+  margin-bottom: 0;
 }
 
 .techItem {
@@ -162,6 +156,7 @@
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   text-transform: uppercase;
 }
@@ -171,42 +166,58 @@
   font-size: 10px;
 }
 
-.description {
-  margin: 0 0 64px 0;
-  font-family: var(--font-label);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-  max-width: 90%;
-}
+
 
 .links {
   display: flex;
   width: 100%;
+  justify-content: center;
+  margin-bottom: 48px;
 }
 
 .actionBtn {
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background: transparent;
   border: 1px solid var(--color-border);
-  padding: 16px 24px;
-  font-family: var(--font-label);
-  font-size: 12px;
-  font-weight: 700;
+  padding: 0;
+  font-size: 16px;
   color: var(--color-text-primary);
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  text-transform: uppercase;
-  width: 280px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  margin-left: 12px;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.btnText {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  max-width: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+  overflow: hidden;
 }
 
 .actionBtn:hover {
   background: var(--color-text-primary);
   color: var(--color-bg);
+  width: 140px;
+  padding: 0 16px;
+}
+
+.actionBtn:hover .btnText {
+  opacity: 1;
+  max-width: 100px;
+  margin-right: 8px;
 }
 
 .arrow {
@@ -222,40 +233,13 @@
 
 
 /* Right Align Modifications (When Narrative is on the right panel) */
-.rightAlign {
-  text-align: right;
+.rightAlign .topSection {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .rightAlign .meta {
   flex-direction: row-reverse;
-}
-
-.rightAlign .visitLink {
-  text-align: right;
-  align-self: flex-end;
-}
-
-.rightAlign .manifestHeader {
-  text-align: right;
-}
-
-.rightAlign .techGrid {
-  direction: rtl;
-}
-
-.rightAlign .techItem {
-  direction: ltr;
-  flex-direction: row-reverse;
-}
-
-.rightAlign .description {
-  text-align: right;
-  margin-left: auto;
-  margin-right: 0;
-}
-
-.rightAlign .links {
-  justify-content: flex-end;
 }
 
 
@@ -327,9 +311,6 @@
   .techGrid {
     margin-bottom: 48px;
   }
-  .description {
-    margin: 0 0 48px 0;
-  }
 }
 
 @media (max-height: 650px) {
@@ -345,8 +326,5 @@
   }
   .techGrid {
     margin-bottom: 32px;
-  }
-  .description {
-    margin: 0 0 32px 0;
   }
 }

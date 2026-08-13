@@ -42,7 +42,9 @@ export default function ArchivePage() {
       ease: "power2.inOut",
       onComplete: () => {
         setActiveProject(null);
-        getLenis()?.start();
+        if (!window.history.state?.workGateOpen) {
+          getLenis()?.start();
+        }
         
         // Fade in archive grid
         gsap.fromTo(`.${styles.shaft}`,
@@ -62,6 +64,22 @@ export default function ArchivePage() {
       );
     }
   }, { dependencies: [activeProject] });
+
+  useEffect(() => {
+    const handleGlobalClose = () => {
+      if (activeProject) {
+        closeProject();
+      }
+    };
+
+    window.addEventListener('closeProjectOverlay', handleGlobalClose);
+    window.addEventListener('closeWorkGate', handleGlobalClose);
+
+    return () => {
+      window.removeEventListener('closeProjectOverlay', handleGlobalClose);
+      window.removeEventListener('closeWorkGate', handleGlobalClose);
+    };
+  }, [activeProject]);
 
   if (projectsLoading || archivePageLoading) return <div style={{ color: 'white', padding: '120px' }}>Loading archive...</div>;
   if (projectsError) return <div style={{ color: 'red', padding: '120px' }}>Error loading archive: {projectsError.message}</div>;
@@ -137,9 +155,9 @@ export default function ArchivePage() {
               </div>
 
               <div className={styles.imageWrap}>
-                {(project.coverImageLandscape || project.coverImage) ? (
+                {project.bannerImage ? (
                   <img 
-                    src={`${project.coverImageLandscape || project.coverImage}?auto=format&q=80&w=800`} 
+                    src={`${project.bannerImage}?auto=format&q=80&w=800`} 
                     alt={project.title} 
                     className={styles.coverImage} 
                     loading="lazy"
@@ -160,6 +178,7 @@ export default function ArchivePage() {
           <ProjectOverlay 
             project={activeProject} 
             onClose={closeProject} 
+            allProjects={projects}
           />
         </div>
       )}
