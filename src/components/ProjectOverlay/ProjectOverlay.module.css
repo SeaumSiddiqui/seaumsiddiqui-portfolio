@@ -113,10 +113,7 @@
 
 .dynamicMedia {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  position: absolute;
-  inset: 0;
+  object-fit: cover;
 }
 
 .mediaPlaceholder {
@@ -210,8 +207,7 @@
 
 .dynamicMediaWrapper {
   flex: 1;
-  position: relative;
-  min-height: 50vh;
+  display: flex;
   background: var(--color-border);
 }
 
