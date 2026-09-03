@@ -12,9 +12,10 @@ interface ProjectOverlayProps {
   allProjects?: ProjectData[];
   reverse?: boolean;
   backgroundBannerElement?: HTMLElement | null;
+  onOpenRelatedProject?: (targetId: string) => void;
 }
 
-const ProjectOverlay = React.memo(function ProjectOverlay({ project, onClose, allProjects = [], reverse = false, backgroundBannerElement }: ProjectOverlayProps) {
+const ProjectOverlay = React.memo(function ProjectOverlay({ project, onClose, allProjects = [], reverse = false, backgroundBannerElement, onOpenRelatedProject }: ProjectOverlayProps) {
   const wrapperRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -213,7 +214,7 @@ const ProjectOverlay = React.memo(function ProjectOverlay({ project, onClose, al
           <section className={`${styles.relatedProjects} ${styles.reveal}`}>
              <div className={styles.relatedList}>
                 {relatedProjects.map((rp, idx) => (
-                  <div key={rp.id || idx} className={styles.relatedItem}>
+                  <div key={rp.id || idx} className={styles.relatedItem} onClick={() => onOpenRelatedProject?.(rp.id)}>
                     <div className={styles.relatedItemInfo}>
                        <h4 className={styles.relatedItemTitle}>{rp.title}</h4>
                        <div className={styles.relatedItemTech}>{rp.tech?.slice(0,4).join(' • ')}</div>

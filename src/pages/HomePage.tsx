@@ -269,6 +269,10 @@ export default function HomePage() {
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('openWorkGate'));
         }, 850);
+      } else if (typeof nextAction === 'number') {
+        setTimeout(() => {
+          openProject(nextAction);
+        }, 850);
       }
     };
 
@@ -358,6 +362,8 @@ export default function HomePage() {
                 
                 if (nextAction === 'openWorkGate') {
                   window.dispatchEvent(new CustomEvent('openWorkGate'));
+                } else if (typeof nextAction === 'number') {
+                  openProject(nextAction);
                 }
               }, 50);
             }
@@ -366,12 +372,16 @@ export default function HomePage() {
           closeProject(skipHistoryBack === true ? true : false);
           if (nextAction === 'openWorkGate') {
             window.dispatchEvent(new CustomEvent('openWorkGate'));
+          } else if (typeof nextAction === 'number') {
+            openProject(nextAction);
           }
         }
       } else {
         closeProject(skipHistoryBack === true ? true : false);
         if (nextAction === 'openWorkGate') {
           window.dispatchEvent(new CustomEvent('openWorkGate'));
+        } else if (typeof nextAction === 'number') {
+          openProject(nextAction);
         }
       }
     };
@@ -588,6 +598,13 @@ export default function HomePage() {
               allProjects={projects}
               reverse={activeProjectIndex % 2 !== 0}
               backgroundBannerElement={splitRefs.current[activeProjectIndex]?.leftRef.current?.parentElement as HTMLElement | null}
+              onOpenRelatedProject={(targetId) => {
+                const targetProjIndex = projects.findIndex(p => p.id === targetId);
+                if (targetProjIndex !== -1) {
+                  const targetLayerIndex = 1 + experiences.length + targetProjIndex;
+                  window.dispatchEvent(new CustomEvent('closeProjectOverlay', { detail: { next: targetLayerIndex, skipHistoryBack: true } }));
+                }
+              }}
             />
           </div>
         )}

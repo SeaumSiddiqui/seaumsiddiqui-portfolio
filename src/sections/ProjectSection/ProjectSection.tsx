@@ -72,7 +72,7 @@ const ProjectSection = React.memo(function ProjectSection({ data, reverse = fals
     if (isActiveBanner) {
       gsap.to(sectionRef.current, { height: '65vh', duration: 0.8, ease: "power4.inOut" });
       gsap.to([leftColRef.current, rightColRef.current], { paddingTop: '20px', paddingBottom: '20px', duration: 0.8, ease: "power4.inOut" });
-      gsap.to(narrativeRef.current, { paddingTop: '10vh', duration: 0.8, ease: "power4.inOut" });
+      gsap.to(narrativeRef.current, { paddingTop: 0, justifyContent: 'center', duration: 0.8, ease: "power4.inOut" });
       gsap.to(topSectionRef.current, { opacity: 0, height: 0, marginBottom: 0, overflow: 'hidden', duration: 0.8, ease: "power4.inOut" });
     } else {
       // If the section was already forcefully expanded (e.g. during the gate close animation),
@@ -86,7 +86,7 @@ const ProjectSection = React.memo(function ProjectSection({ data, reverse = fals
       } else {
         gsap.to(sectionRef.current, { height: '100vh', duration: 0.8, ease: "power4.inOut", clearProps: "height" });
         gsap.to([leftColRef.current, rightColRef.current], { paddingTop: '60px', paddingBottom: '60px', duration: 0.8, ease: "power4.inOut", clearProps: "paddingTop,paddingBottom" });
-        gsap.to(narrativeRef.current, { paddingTop: '40px', duration: 0.8, ease: "power4.inOut", clearProps: "paddingTop" });
+        gsap.to(narrativeRef.current, { paddingTop: '40px', justifyContent: 'flex-start', duration: 0.8, ease: "power4.inOut", clearProps: "paddingTop,justifyContent" });
         gsap.to(topSectionRef.current, { opacity: 1, height: 'auto', marginBottom: '80px', duration: 0.8, ease: "power4.inOut", clearProps: "all" });
       }
     }

@@ -73,7 +73,7 @@
 }
 
 .techTag {
-  font-family: var(--font-code);
+  font-family: var(--font-label);
   font-size: 12px;
   padding: 6px 12px;
   border: 1px solid var(--color-border);
@@ -113,7 +113,8 @@
 
 .dynamicMedia {
   width: 100%;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
 }
 
 .mediaPlaceholder {
@@ -122,7 +123,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-code);
+  font-family: var(--font-label);
   color: var(--color-text-muted);
 }
 
@@ -262,7 +263,12 @@
   padding: 80px var(--site-padding);
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
+  text-align: justify;
+  text-align-last: center;
+}
+
+.summarySection .richP {
+  text-align-last: center;
 }
 
 /* Related Projects */
@@ -312,7 +318,7 @@
 }
 
 .relatedItemTech {
-  font-family: var(--font-code);
+  font-family: var(--font-label);
   font-size: 14px;
   color: var(--color-text-muted);
 }
@@ -350,6 +356,7 @@
   line-height: 1.8;
   color: var(--color-text-secondary);
   margin-bottom: 24px;
+  text-align: justify;
 }
 .richUl, .richOl {
   font-family: var(--font-body);
@@ -370,7 +377,7 @@
   color: var(--color-text-primary);
 }
 .richCode {
-  font-family: var(--font-code);
+  font-family: var(--font-label);
   background: var(--color-bg-subtle);
   padding: 4px 8px;
   border-radius: 4px;
